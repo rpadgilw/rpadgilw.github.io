@@ -1,91 +1,1679 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rajesh Padgilwar</title>
-  <meta name="description" content="Rajesh Padgilwar — Senior Research Engineer working on computer vision, robotics perception, and embodied AI.">
-  <style>
-    :root { color-scheme: light; }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: #1a1a1a;
-      background: #fff;
-      line-height: 1.6;
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>Rajesh Padgilwar — Computer Vision &amp; Embodied AI</title>
+<meta name="description" content="Rajesh Padgilwar — Senior Research Engineer working on computer vision, robotics perception, and embodied AI. Portfolio: embodied question answering, shipped face recognition, VLM diagnostics, Visual SLAM, and Gaussian Splatting." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#f7f5f1;
+    --bg-raised:#fffdf9;
+    --bg-sink:#efece5;
+    --ink:#1c2321;
+    --ink-2:#43514c;
+    --ink-3:#71807a;
+    --line:#ddd8cc;
+    --line-strong:#c8c2b2;
+    --accent:#0e6e5c;
+    --accent-ink:#0a5748;
+    --accent-soft:#e0efe9;
+    --amber:#b97a1c;
+    --amber-soft:#f6ead3;
+    --node:#0e6e5c;
+    --node-hot:#c2540a;
+    --room-fill:#efece5;
+    --room-line:#c8c2b2;
+    --shadow:0 1px 2px rgba(28,35,33,.06),0 8px 24px rgba(28,35,33,.06);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#121614;
+      --bg-raised:#1a1f1d;
+      --bg-sink:#171c1a;
+      --ink:#e8ece9;
+      --ink-2:#b3beb8;
+      --ink-3:#84928b;
+      --line:#2b332f;
+      --line-strong:#3d4742;
+      --accent:#3ec9a7;
+      --accent-ink:#7adfc2;
+      --accent-soft:#17352d;
+      --amber:#e0a84e;
+      --amber-soft:#3a2d15;
+      --node:#3ec9a7;
+      --node-hot:#f08a4b;
+      --room-fill:#1e2422;
+      --room-line:#3d4742;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.25);
     }
-    main { max-width: 760px; margin: 0 auto; padding: 64px 24px 80px; }
-    h1 { font-size: 2.2rem; margin: 0 0 6px; letter-spacing: -0.02em; }
-    .role { font-size: 1.1rem; color: #444; margin: 0 0 4px; }
-    .affil { color: #666; margin: 0 0 32px; }
-    h2 {
-      font-size: 1rem; text-transform: uppercase; letter-spacing: 0.08em;
-      color: #888; margin: 40px 0 12px; font-weight: 600;
-    }
-    p { margin: 0 0 14px; }
-    ul { margin: 0; padding-left: 20px; }
-    li { margin-bottom: 6px; }
-    .interests li { margin-bottom: 4px; }
-    footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 0.9rem; }
-  </style>
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    line-height:1.6;font-size:16.5px;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent-ink);text-decoration-color:color-mix(in srgb,var(--accent) 45%,transparent);text-underline-offset:3px}
+  a:hover{text-decoration-color:var(--accent)}
+  button{font:inherit;cursor:pointer;min-height:44px}
+  ::selection{background:var(--accent-soft)}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:color-mix(in srgb,var(--bg) 88%,transparent);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-in{display:flex;align-items:center;gap:20px;padding:12px 0}
+  .brand{font-weight:700;letter-spacing:-.01em;font-size:1.02rem;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .brand span{color:var(--accent)}
+  nav.main{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}
+  nav.main a{
+    color:var(--ink-2);text-decoration:none;font-size:.92rem;font-weight:500;
+    padding:10px 12px;border-radius:8px;min-height:44px;display:inline-flex;align-items:center;
+  }
+  nav.main a:hover{color:var(--ink);background:var(--bg-sink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:64px 0 8px}
+  .hero-grid{display:grid;grid-template-columns:1.65fr 1fr;gap:48px;align-items:start}
+  .hero h1{
+    font-family:"IBM Plex Serif",Georgia,serif;font-weight:600;
+    font-size:clamp(2.3rem,5.2vw,3.6rem);line-height:1.08;letter-spacing:-.015em;margin:0 0 14px;
+  }
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .hero .role{font-size:1.12rem;color:var(--ink-2);margin:0 0 6px;font-weight:500}
+  .hero .affil{color:var(--ink-3);margin:0 0 22px}
+  .hero .lede{font-size:1.13rem;line-height:1.65;color:var(--ink-2);max-width:56ch;margin:0 0 26px}
+  .hero .lede strong{color:var(--ink)}
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 20px;
+    border-radius:10px;font-weight:600;font-size:.98rem;text-decoration:none;border:1px solid transparent;
+  }
+  .btn-primary{background:var(--accent);color:#fff}
+  @media (prefers-color-scheme: dark){ .btn-primary{color:#0b1512} }
+  .btn-primary:hover{background:var(--accent-ink);color:#fff}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-strong)}
+  .btn-ghost:hover{border-color:var(--ink-3)}
+  .portrait-card{
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:22px;
+  }
+  .monogram{
+    width:76px;height:76px;border-radius:50%;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-family:"IBM Plex Serif",serif;font-size:1.7rem;font-weight:600;margin-bottom:14px;
+  }
+  @media (prefers-color-scheme: dark){ .monogram{color:#0b1512} }
+  .portrait-card h2{font-size:1rem;margin:0 0 4px}
+  .portrait-card p{margin:0 0 12px;color:var(--ink-2);font-size:.94rem}
+  .fact-list{list-style:none;margin:14px 0 0;padding:14px 0 0;border-top:1px solid var(--line)}
+  .fact-list li{display:flex;justify-content:space-between;gap:16px;padding:5px 0;font-size:.92rem}
+  .fact-list li span:first-child{color:var(--ink-3)}
+  .fact-list li span:last-child{font-weight:600;text-align:right}
+
+  .metric-strip{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin:44px 0 8px;
+  }
+  .metric{background:var(--bg-raised);padding:20px 22px}
+  .metric .num{font-family:"IBM Plex Serif",serif;font-size:1.9rem;font-weight:600;line-height:1.1;color:var(--accent-ink)}
+  .metric .lbl{font-size:.88rem;color:var(--ink-2);margin-top:4px;line-height:1.45}
+
+  /* ---------- sections ---------- */
+  section{padding:56px 0 8px}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:8px}
+  .sec-head h2{
+    font-family:"IBM Plex Serif",serif;font-size:1.75rem;font-weight:600;letter-spacing:-.01em;margin:0;
+  }
+  .sec-head .no{font-family:"IBM Plex Mono",monospace;font-size:.85rem;color:var(--accent);font-weight:600}
+  .sec-sub{color:var(--ink-2);max-width:70ch;margin:0 0 28px}
+
+  /* ---------- demo ---------- */
+  .demo-shell{
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:18px;
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  .demo-top{
+    display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;
+    padding:18px 22px;border-bottom:1px solid var(--line);background:var(--bg-sink);
+  }
+  .demo-top .t{font-weight:700;font-size:1.02rem}
+  .demo-top .t small{display:block;font-weight:400;color:var(--ink-3);font-size:.85rem}
+  .mode-toggle{display:flex;border:1px solid var(--line-strong);border-radius:10px;overflow:hidden}
+  .mode-toggle button{
+    border:0;background:transparent;padding:8px 16px;font-weight:600;font-size:.9rem;color:var(--ink-2);min-height:44px;
+  }
+  .mode-toggle button[aria-pressed="true"]{background:var(--accent);color:#fff}
+  @media (prefers-color-scheme: dark){ .mode-toggle button[aria-pressed="true"]{color:#0b1512} }
+  .demo-grid{display:grid;grid-template-columns:1.5fr 1fr;min-height:480px}
+  .plan-pane{padding:22px;border-right:1px solid var(--line)}
+  .plan-pane svg{width:100%;height:auto;display:block}
+  .side-pane{padding:22px;display:flex;flex-direction:column;gap:16px}
+  .q-label{font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:0}
+  .q-chips{display:flex;flex-direction:column;gap:8px}
+  .q-chip{
+    text-align:left;border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);
+    border-radius:10px;padding:11px 14px;font-size:.95rem;font-weight:500;min-height:48px;
+  }
+  .q-chip:hover{border-color:var(--accent)}
+  .q-chip.active{border-color:var(--accent);background:var(--accent-soft)}
+  .trace{
+    background:var(--bg-sink);border:1px solid var(--line);border-radius:12px;padding:10px;
+    display:flex;flex-direction:column;gap:6px;min-height:150px;
+  }
+  .trace .step{
+    display:flex;gap:10px;align-items:flex-start;
+    padding:9px 10px;border-radius:9px;border:1px solid transparent;
+    opacity:.38;transition:opacity .35s,background .35s,border-color .35s;
+  }
+  .trace .step .num{
+    flex:none;width:22px;height:22px;border-radius:50%;margin-top:1px;
+    border:2px solid var(--line-strong);color:var(--ink-3);
+    font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;
+    display:flex;align-items:center;justify-content:center;background:var(--bg-raised);
+    transition:all .35s;
+  }
+  .trace .step .body{font-size:.86rem;line-height:1.5;color:var(--ink-2)}
+  .trace .step .body .k{
+    display:block;font-family:"IBM Plex Mono",monospace;font-size:.74rem;font-weight:600;
+    letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1px;
+  }
+  .trace .step .body .detail{color:var(--ink-3);font-size:.82rem}
+  .trace .step.active{opacity:1;background:var(--bg-raised);border-color:var(--accent);box-shadow:0 2px 10px rgba(28,35,33,.08)}
+  .trace .step.active .num{border-color:var(--accent);background:var(--accent);color:#fff;animation:stepPulse 1s ease-in-out infinite}
+  @media (prefers-color-scheme: dark){ .trace .step.active .num{color:#0b1512} }
+  .trace .step.active .body .k{color:var(--accent-ink)}
+  .trace .step.done{opacity:.85}
+  .trace .step.done .num{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink)}
+  .trace .step.done .num::after{content:"✓";font-size:.72rem}
+  .trace .step.done .num span{display:none}
+  @keyframes stepPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+  .trace-hint{font-size:.86rem;color:var(--ink-3);padding:8px 10px;line-height:1.55}
+  /* stage caption + progress under the floor plan */
+  .stage-bar{
+    margin-top:16px;border:1px solid var(--line);border-radius:12px;background:var(--bg-sink);
+    padding:14px 16px;display:flex;gap:14px;align-items:flex-start;min-height:76px;
+  }
+  .stage-dots{display:flex;gap:6px;flex:none;padding-top:5px}
+  .stage-dots i{
+    width:10px;height:10px;border-radius:50%;border:2px solid var(--line-strong);
+    background:transparent;transition:all .35s;
+  }
+  .stage-dots i.active{border-color:var(--node-hot);background:var(--node-hot);transform:scale(1.25)}
+  .stage-dots i.done{border-color:var(--accent);background:var(--accent)}
+  .stage-text{min-width:0}
+  .stage-count{
+    font-family:"IBM Plex Mono",monospace;font-size:.74rem;font-weight:600;
+    letter-spacing:.07em;text-transform:uppercase;color:var(--accent-ink);margin:0 0 2px;
+  }
+  .stage-caption{margin:0;font-size:.95rem;line-height:1.55;color:var(--ink-2)}
+  .stage-caption strong{color:var(--ink)}
+  .replay-row{display:none;margin-top:12px}
+  .replay-row.show{display:block}
+  .replay-btn{
+    background:transparent;border:1px solid var(--line-strong);color:var(--ink);
+    border-radius:10px;padding:9px 16px;font-weight:600;font-size:.92rem;min-height:44px;
+  }
+  .replay-btn:hover{border-color:var(--accent);color:var(--accent-ink)}
+  .answer-box{
+    border-left:4px solid var(--accent);background:var(--accent-soft);
+    border-radius:0 12px 12px 0;padding:14px 16px;font-size:.98rem;display:none;
+  }
+  .answer-box.show{display:block}
+  .answer-box strong{display:block;margin-bottom:2px}
+  .obj-card{
+    border:1px solid var(--line);border-radius:12px;padding:16px;background:var(--bg);display:none;
+  }
+  .obj-card.show{display:block}
+  .obj-card h3{margin:0 0 8px;font-size:1.02rem}
+  .obj-card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:.9rem}
+  .obj-card dt{color:var(--ink-3)}
+  .obj-card dd{margin:0;font-weight:500}
+  .teach-row{display:none;flex-direction:column;gap:10px}
+  .teach-row.show{display:flex}
+  .teach-row p{margin:0;font-size:.94rem;color:var(--ink-2)}
+  .teach-btn{
+    align-self:flex-start;background:var(--amber);color:#fff;border:0;border-radius:10px;
+    padding:10px 18px;font-weight:600;min-height:48px;
+  }
+  @media (prefers-color-scheme: dark){ .teach-btn{color:#1d1405} }
+  .cap.obj-cap svg{border-color:var(--amber)}
+  .p-chip{transition:opacity .3s,transform .3s,border-color .3s,background .3s, color .3s}
+  .frame-label{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;letter-spacing:.06em;color:var(--ink-3);margin:10px 0 4px}
+  /* svg scene */
+  .room rect{fill:var(--room-fill);stroke:var(--room-line);stroke-width:1.5}
+  .room text{fill:var(--ink-3);font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em}
+  .edge{stroke:var(--line-strong);stroke-width:1.4;stroke-dasharray:4 4;opacity:.42;transition:stroke .3s,stroke-width .3s,opacity .3s}
+  .edge.scan{stroke:var(--node);stroke-width:2;opacity:.55}
+  .edge.hot{stroke:var(--node-hot);stroke-width:2.6;stroke-dasharray:none;opacity:1}
+  .obj{cursor:pointer;transition:opacity .4s}
+  .obj circle.core{fill:var(--bg-raised);stroke:var(--node);stroke-width:2;transition:all .25s}
+  .obj circle.halo{fill:none;stroke:var(--node);stroke-width:2;opacity:0}
+  .obj text{fill:var(--ink);font-size:12.5px;font-weight:500}
+  .obj:hover circle.core,.obj:focus circle.core{stroke-width:3}
+  .obj.scan circle.core{stroke:var(--node-hot);stroke-width:3.5}
+  .obj.scan circle.halo{animation:halo 0.7s ease-out 1}
+  .obj.hot circle.core{fill:var(--node-hot);stroke:var(--node-hot)}
+  .obj.hot text{font-weight:700}
+  .obj.found{animation:foundPop .55s cubic-bezier(.2,1.6,.4,1) 1}
+  .obj.found circle.halo{animation:halo .8s ease-out 2}
+  .obj.dim{opacity:.3}
+  .obj.taught circle.core{stroke:var(--amber);stroke-width:3}
+  @keyframes halo{0%{r:14;opacity:.75}100%{r:30;opacity:0}}
+  @keyframes foundPop{0%{transform:scale(.8)}60%{transform:scale(1.22)}100%{transform:scale(1)}}
+  .obj{transform-box:fill-box;transform-origin:center}
+  .robot-dot{fill:var(--node-hot)}
+  .robot-thinking{animation:stepPulse 1s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+  .pulse{fill:none;stroke:var(--node-hot);stroke-width:2;opacity:0}
+  .pulse.go{animation:pulseAnim 1.1s ease-out 2}
+  @keyframes pulseAnim{0%{r:8;opacity:.8}100%{r:34;opacity:0}}
+  .traveler{fill:var(--node-hot);stroke:var(--bg-raised);stroke-width:2;opacity:0;pointer-events:none}
+  .speech{opacity:0;transition:opacity .4s;pointer-events:none}
+  .speech.show{opacity:1}
+  .speech rect{fill:var(--bg-raised);stroke:var(--amber);stroke-width:1.6}
+  .speech text{fill:var(--ink);font-size:13px;font-weight:600}
+  .speech .who{fill:var(--ink-3);font-size:10.5px;font-weight:500;font-family:"IBM Plex Mono",monospace;letter-spacing:.05em}
+  @media (prefers-reduced-motion: reduce){
+    .pulse.go,.obj.scan circle.halo,.obj.found,.obj.found circle.halo,.robot-thinking,.trace .step.active .num{animation:none}
+    .trace .step,.obj,.speech,.detbox{transition:none}
+  }
+  /* exploration: camera cone, detection boxes, graph building */
+  #cone{fill:var(--accent);opacity:0;pointer-events:none;transition:opacity .3s}
+  #cone.on{opacity:.15}
+  .edge.hidden{opacity:0}
+  .room.lit rect{fill:var(--accent-soft);stroke:var(--accent)}
+  .obj.undiscovered circle.core{fill:var(--bg-sink);stroke:var(--line-strong);stroke-dasharray:4 4}
+  .obj.undiscovered text{opacity:.3}
+  .obj text.tracktag{fill:var(--ink-3);font-size:10.5px;font-weight:600;font-family:"IBM Plex Mono",monospace}
+  .detbox{opacity:0;transition:opacity .35s;pointer-events:none}
+  .detbox.show{opacity:1}
+  .detbox rect{fill:none;stroke:var(--amber);stroke-width:2;stroke-dasharray:6 4}
+  .detbox text{fill:var(--amber);font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600}
+  .pane-text{margin:10px 0 14px;font-size:.94rem;color:var(--ink-2)}
+  /* exploration trail, room fixtures, capture flash, captured frames */
+  #trail{fill:none;stroke:var(--accent);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1 8;opacity:.85;pointer-events:none}
+  #trail.done{opacity:.35}
+  .trail-dot{fill:var(--bg-raised);stroke:var(--accent);stroke-width:2.4}
+  .fixture rect,.fixture circle{fill:none;stroke:var(--ink-3);stroke-width:1.4;opacity:.7}
+  .fixture text{fill:var(--ink-3);font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.06em}
+  #flash{opacity:0;transition:opacity .3s;pointer-events:none}
+  #flash.show{opacity:1}
+  #flash rect{fill:color-mix(in srgb,var(--amber) 10%,transparent);stroke:var(--amber);stroke-width:2.5}
+  #flash text{fill:var(--amber);font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.06em}
+  .captures{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .cap{margin:0;width:104px}
+  .cap svg{width:104px;height:70px;display:block;border:1px solid var(--line-strong);border-radius:8px;background:var(--bg-sink)}
+  .cap figcaption{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--ink-3);margin-top:4px;line-height:1.4}
+  .cap-hint{font-size:.86rem;color:var(--ink-3);line-height:1.55}
+  .frame-card{
+    border:1px solid var(--amber);border-radius:12px;padding:16px;background:var(--bg);display:none;
+  }
+  .frame-card.show{display:block}
+  .frame-card h3{margin:0 0 10px;font-size:1.02rem}
+  .frame-card svg{width:100%;height:auto;display:block;border:1px solid var(--line-strong);border-radius:8px;background:var(--bg-sink)}
+  .frame-card .frame-meta{font-family:"IBM Plex Mono",monospace;font-size:.74rem;color:var(--ink-3);margin:8px 0 6px;line-height:1.5}
+  .frame-card p{margin:0;font-size:.9rem;color:var(--ink-2);line-height:1.55}
+  .frame-card p strong{color:var(--ink)}
+  .g-entry{
+    display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:9px;
+    background:var(--bg-raised);border:1px solid var(--line);font-size:.88rem;line-height:1.45;
+  }
+  .g-entry .g-check{
+    flex:none;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);
+    display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;margin-top:1px;
+  }
+  .g-entry .g-sub{display:block;color:var(--ink-3);font-size:.8rem}
+  .path-chain{display:none;flex-wrap:wrap;gap:6px;align-items:center;margin-top:14px}
+  .path-chain.show{display:flex}
+  .p-chip{
+    font-family:"IBM Plex Mono",monospace;font-size:.76rem;font-weight:600;
+    border:1px solid var(--line-strong);background:var(--bg);border-radius:999px;padding:4px 10px;
+  }
+  .p-chip.end{border-color:var(--node-hot);color:var(--node-hot)}
+  .p-arrow{color:var(--accent);font-weight:700;font-size:.8rem}
+  .hook{
+    display:none;margin-top:16px;border:1px solid var(--line);background:var(--amber-soft);
+    border-radius:12px;padding:14px 16px;font-size:.93rem;line-height:1.55;color:var(--ink-2);
+  }
+  .hook.show{display:block}
+  .hook strong{color:var(--ink)}
+
+  /* ---------- projects ---------- */
+  .proj{
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);
+    padding:30px 32px;margin-bottom:22px;
+  }
+  .proj-head{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between}
+  .proj h3{font-family:"IBM Plex Serif",serif;font-size:1.42rem;font-weight:600;margin:0;letter-spacing:-.01em}
+  .proj .where{font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--ink-3);white-space:nowrap}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+  .tag{
+    font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:999px;
+    background:var(--bg-sink);border:1px solid var(--line);color:var(--ink-2);
+  }
+  .tag.hot{background:var(--amber-soft);border-color:transparent;color:var(--amber)}
+  .proj p{color:var(--ink-2);margin:10px 0}
+  .proj p strong{color:var(--ink)}
+  .proj-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;margin-top:6px}
+  .proj-stats{display:flex;flex-direction:column;gap:10px}
+  .stat{border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:var(--bg)}
+  .stat .n{font-family:"IBM Plex Serif",serif;font-size:1.35rem;font-weight:600;color:var(--accent-ink);line-height:1.15}
+  .stat .d{font-size:.86rem;color:var(--ink-2)}
+  /* ---------- timeline / skills ---------- */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+  .tl{list-style:none;margin:0;padding:0}
+  .tl li{position:relative;padding:0 0 26px 28px;border-left:2px solid var(--line)}
+  .tl li:last-child{padding-bottom:4px}
+  .tl li::before{
+    content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;
+    background:var(--bg);border:3px solid var(--accent);
+  }
+  .tl .when{font-family:"IBM Plex Mono",monospace;font-size:.8rem;color:var(--ink-3)}
+  .tl h3{margin:2px 0 4px;font-size:1.05rem}
+  .tl p{margin:0;color:var(--ink-2);font-size:.95rem}
+  .skill-group{margin-bottom:20px}
+  .skill-group h3{font-size:.95rem;margin:0 0 8px}
+  .skill-group p{margin:0;color:var(--ink-2);font-size:.95rem}
+  .patent{
+    background:var(--bg-raised);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);
+    padding:28px 32px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center;
+  }
+  .patent .seal{
+    width:84px;height:84px;border-radius:50%;border:2px solid var(--amber);color:var(--amber);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+    font-family:"IBM Plex Mono",monospace;font-size:.62rem;line-height:1.5;padding:8px;
+  }
+  .patent .seal b{font-size:.95rem}
+  .patent h3{margin:0 0 6px;font-size:1.15rem}
+  .patent p{margin:0;color:var(--ink-2)}
+
+  /* ---------- contact / footer ---------- */
+  .contact-band{
+    background:var(--accent);color:#fff;border-radius:18px;padding:36px 38px;margin:56px 0 0;
+    display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between;
+  }
+  @media (prefers-color-scheme: dark){ .contact-band{color:#0b1512} }
+  .contact-band h2{font-family:"IBM Plex Serif",serif;margin:0 0 6px;font-size:1.6rem}
+  .contact-band p{margin:0;opacity:.9;max-width:52ch}
+  .contact-links{display:flex;flex-direction:column;gap:8px}
+  .contact-links a{color:inherit;font-weight:600;padding:6px 0;min-height:36px;display:inline-flex;align-items:center}
+  footer{padding:28px 0 44px;color:var(--ink-3);font-size:.88rem;display:flex;flex-wrap:wrap;gap:8px 20px;justify-content:space-between}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:640px){
+    .topbar-in{flex-wrap:wrap;gap:6px}
+    nav.main{margin-left:0}
+    nav.main a{padding:10px 10px 10px 0}
+    .mode-toggle{flex-wrap:wrap;width:100%}
+    .mode-toggle button{flex:1 1 auto;padding:8px 10px}
+  }
+  @media (max-width:900px){
+    .hero-grid,.demo-grid,.proj-grid,.two-col{grid-template-columns:1fr}
+    .plan-pane{border-right:0;border-bottom:1px solid var(--line)}
+    .metric-strip{grid-template-columns:1fr 1fr}
+    .patent{grid-template-columns:1fr}
+    nav.main a{padding:10px 8px}
+    .hero{padding-top:40px}
+    .proj{padding:24px 20px}
+    .contact-band{padding:28px 22px}
+  }
+</style>
 </head>
 <body>
-  <main>
-    <h1>Rajesh Padgilwar</h1>
-    <p class="role">Senior Research Engineer</p>
-    <p class="affil">Fauna Robotics (an Amazon.com subsidiary) &middot; Sunnyvale, California</p>
-    <p class="affil">
-      <a href="https://github.com/rpadgilw">GitHub</a> &middot;
-      <a href="https://www.linkedin.com/in/rajesh-padgilwar">LinkedIn</a>
+
+<header class="topbar">
+  <div class="wrap topbar-in">
+    <a class="brand" href="#top">Rajesh Padgilwar<span>.</span></a>
+    <nav class="main" aria-label="Portfolio sections">
+      <a href="#demo">Demo</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#patent">Patent</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- ================= HERO ================= -->
+  <div class="hero">
+    <div class="hero-grid">
+      <div>
+        <p class="role">Senior Research Engineer — Computer Vision &amp; Embodied AI</p>
+        <h1>Robots that <em>see</em> a home, remember it, and answer questions about it.</h1>
+        <p class="affil">Fauna Robotics (an Amazon.com subsidiary) · Sunnyvale, California</p>
+        <p class="lede">
+          I build perception and embodied-AI systems for robots that operate in real homes — <strong>8+ years</strong>
+          shipping production ML in C++ and Python, from on-device face recognition used by Amazon Astro customers
+          to a vision-language system that builds a <strong>persistent 3D scene graph</strong> of a home — and answers questions about it.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#demo">Try the scene-graph demo</a>
+          <a class="btn btn-ghost" href="#work">See selected work</a>
+        </div>
+      </div>
+      <aside class="portrait-card" aria-label="At a glance">
+        <div class="monogram" aria-hidden="true">RP</div>
+        <h2>Rajesh Padgilwar</h2>
+        <p>Senior Research Engineer, Fauna Robotics. Previously on Amazon Astro perception, 2018–2026 — Senior Software Engineer from 2020.</p>
+        <ul class="fact-list">
+          <li><span>Focus</span><span>Robotics perception</span></li>
+          <li><span>Current work</span><span>Embodied QA · SLAM</span></li>
+          <li><span>Patent</span><span>US11858143B1 (2024)</span></li>
+          <li><span>Education</span><span>M.S. CS, UC Irvine</span></li>
+          <li><span>Profiles</span><span><a href="https://github.com/rpadgilw" target="_blank" rel="noopener">GitHub</a> · <a href="https://www.linkedin.com/in/rajesh-padgilwar" target="_blank" rel="noopener">LinkedIn</a></span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <div class="metric-strip" role="list" aria-label="Selected results">
+      <div class="metric" role="listitem"><div class="num">72%</div><div class="lbl">Accuracy on OpenEQA — embodied question answering, as co-technical lead</div></div>
+      <div class="metric" role="listitem"><div class="num">4×</div><div class="lbl">Fewer false positives in face recognition shipped to Astro customers, from a 1% FPR baseline</div></div>
+      <div class="metric" role="listitem"><div class="num">50% → 90%</div><div class="lbl">Diagnosis accuracy of the VLM system triaging Astro production issues</div></div>
+      <div class="metric" role="listitem"><div class="num">100+</div><div class="lbl">Tickets a day served by the VLM diagnostics system, org-wide at Amazon</div></div>
+    </div>
+  </div>
+
+  <!-- ================= DEMO ================= -->
+  <section id="demo" aria-labelledby="demo-h">
+    <div class="sec-head"><span class="no">01</span><h2 id="demo-h">Interactive demo: how a robot builds a memory — then answers from it</h2></div>
+    <p class="sec-sub">
+      This is the core idea behind my embodied question-answering work, made tangible — the <strong>full pipeline</strong>.
+      First the robot <strong>explores</strong>: object detection and 2D/3D tracking turn its camera views into a
+      <strong>3D scene graph</strong> — rooms, objects, and where things were last seen. Only then can it answer
+      questions, by looking things up in that memory instead of guessing. And because exploration also
+      <strong>captures images</strong>, the robot can answer some questions from a stored camera frame — even about
+      things that were never tracked as objects in the graph. Start with <strong>Explore</strong> to watch
+      the memory being built, then ask it something.
     </p>
 
-    <h2>About</h2>
-    <p>
-      I am a Senior Research Engineer at Fauna Robotics (an Amazon.com subsidiary), working on computer vision,
-      robotics perception, and embodied AI for robots that operate in real homes.
-      My work focuses on helping robots perceive and understand the people, objects,
-      and spaces around them, and on deploying machine learning systems that run
-      reliably on-device in real time.
-    </p>
-    <p>
-      Previously, I was a Senior Software Engineer at Amazon, where I worked on
-      perception for Amazon Astro from 2018 to 2026. I have over eight years of
-      experience building production computer vision and machine learning systems
-      in C++ and Python.
-    </p>
+    <div class="demo-shell">
+      <div class="demo-top">
+        <div class="t">Scene-Graph Explorer<small>A robot&rsquo;s persistent memory of one home</small></div>
+        <div class="mode-toggle" role="group" aria-label="Demo mode">
+          <button type="button" id="mode-explore" aria-pressed="true">1 · Explore</button>
+          <button type="button" id="mode-ask" aria-pressed="false">2 · Ask a question</button>
+          <button type="button" id="mode-teach" aria-pressed="false">3 · Teach the robot</button>
+        </div>
+      </div>
 
-    <h2>Research Interests</h2>
-    <ul class="interests">
-      <li>Computer Vision and Robotics Perception</li>
-      <li>Embodied AI</li>
-      <li>Vision-Language Models</li>
-      <li>3D Scene Understanding and Spatial Mapping</li>
-      <li>People and Object Tracking</li>
-      <li>On-Device and Edge Machine Learning</li>
-    </ul>
+      <div class="demo-grid">
+        <div class="plan-pane">
+          <svg id="plan" viewBox="0 0 640 470" role="group" aria-label="Schematic apartment floor plan with objects the robot remembers">
+            <!-- edges (scene graph relations) -->
+            <g id="edges">
+              <line class="edge" data-edge="robot-mug"    x1="330" y1="330" x2="180" y2="130"/>
+              <line class="edge" data-edge="robot-keys"   x1="330" y1="330" x2="520" y2="90"/>
+              <line class="edge" data-edge="robot-book"   x1="330" y1="330" x2="500" y2="330"/>
+              <line class="edge" data-edge="robot-plant"  x1="330" y1="330" x2="110" y2="350"/>
+              <line class="edge" data-edge="robot-shoes"  x1="330" y1="330" x2="520" y2="185"/>
+              <line class="edge" data-edge="robot-remote" x1="330" y1="330" x2="215" y2="215"/>
+            </g>
+            <!-- rooms -->
+            <g class="room" data-room="kitchen"><rect x="30" y="30" width="270" height="190" rx="6"/><text x="48" y="56">KITCHEN</text></g>
+            <g class="room" data-room="entryway"><rect x="316" y="30" width="294" height="190" rx="6"/><text x="334" y="56">ENTRYWAY</text></g>
+            <g class="room" data-room="living"><rect x="30" y="236" width="270" height="204" rx="6"/><text x="48" y="262">LIVING ROOM</text></g>
+            <g class="room" data-room="bedroom"><rect x="316" y="236" width="294" height="204" rx="6"/><text x="334" y="262">BEDROOM</text></g>
+            <!-- kitchen stove: a fixture, deliberately NOT a scene-graph object -->
+            <g class="fixture" aria-hidden="true">
+              <rect x="252" y="146" width="42" height="40" rx="4"/>
+              <circle cx="264" cy="158" r="4.5"/><circle cx="282" cy="158" r="4.5"/><circle cx="264" cy="175" r="4.5"/><circle cx="282" cy="175" r="4.5"/>
+              <text x="273" y="200" text-anchor="middle">STOVE</text>
+            </g>
+            <!-- exploration trail: the dotted route the robot actually drives, drawn behind it -->
+            <path id="trail" d=""/>
+            <g id="trail-dots"></g>
+            <!-- capture flash: frames the room the robot is photographing -->
+            <g id="flash"><rect id="flash-rect" x="0" y="0" width="10" height="10" rx="6"/><text id="flash-tag" x="0" y="0">▣ FRAME CAPTURED</text></g>
+            <!-- camera view cone, shown while exploring -->
+            <path id="cone" d=""/>
+            <!-- robot -->
+            <circle class="pulse" id="pulse" cx="330" cy="330" r="8"/>
+            <circle class="robot-dot" id="robot-dot" cx="330" cy="330" r="9"/>
+            <text id="robot-label" x="330" y="362" text-anchor="middle" style="font-size:12px;font-weight:700;fill:var(--ink)">ROBOT</text>
+            <!-- objects -->
+            <g class="obj" data-obj="mug" tabindex="0" role="button" aria-label="Inspect memory entry: favorite mug">
+              <circle class="halo" cx="180" cy="130" r="14"/><circle class="core" cx="180" cy="130" r="13"/><text x="180" y="165" text-anchor="middle">favorite mug</text>
+            </g>
+            <g class="obj" data-obj="keys" tabindex="0" role="button" aria-label="Inspect memory entry: keys">
+              <circle class="halo" cx="520" cy="90" r="14"/><circle class="core" cx="520" cy="90" r="13"/><text x="520" y="125" text-anchor="middle">keys</text>
+            </g>
+            <g class="obj" data-obj="shoes" tabindex="0" role="button" aria-label="Inspect memory entry: running shoes">
+              <circle class="halo" cx="520" cy="185" r="14"/><circle class="core" cx="520" cy="185" r="13"/><text x="520" y="218" text-anchor="middle">running shoes</text>
+            </g>
+            <g class="obj" data-obj="remote" tabindex="0" role="button" aria-label="Inspect memory entry: TV remote">
+              <circle class="halo" cx="215" cy="215" r="14"/><circle class="core" cx="215" cy="215" r="13"/><text x="215" y="248" text-anchor="middle"></text>
+            </g>
+            <g class="obj" data-obj="plant" tabindex="0" role="button" aria-label="Inspect memory entry: monstera plant">
+              <circle class="halo" cx="110" cy="350" r="14"/><circle class="core" cx="110" cy="350" r="13"/><text x="110" y="385" text-anchor="middle">monstera</text>
+            </g>
+            <g class="obj" data-obj="book" tabindex="0" role="button" aria-label="Inspect memory entry: novel on nightstand">
+              <circle class="halo" cx="500" cy="330" r="14"/><circle class="core" cx="500" cy="330" r="13"/><text x="500" y="365" text-anchor="middle">novel</text>
+            </g>
+            <text x="215" y="196" text-anchor="middle" style="font-size:12.5px;font-weight:500;fill:var(--ink)">TV remote</text>
+            <!-- object-detection boxes, shown while exploring -->
+            <g id="detboxes">
+              <g class="detbox" data-det="mug"><rect x="146" y="99" width="68" height="62" rx="6"/><text x="180" y="89" text-anchor="middle"></text></g>
+              <g class="detbox" data-det="keys"><rect x="486" y="59" width="68" height="62" rx="6"/><text x="520" y="49" text-anchor="middle"></text></g>
+              <g class="detbox" data-det="shoes"><rect x="486" y="154" width="68" height="62" rx="6"/><text x="520" y="144" text-anchor="middle"></text></g>
+              <g class="detbox" data-det="remote"><rect x="181" y="184" width="68" height="62" rx="6"/><text x="215" y="268" text-anchor="middle"></text></g>
+              <g class="detbox" data-det="plant"><rect x="76" y="319" width="68" height="62" rx="6"/><text x="110" y="309" text-anchor="middle"></text></g>
+              <g class="detbox" data-det="book"><rect x="466" y="299" width="68" height="62" rx="6"/><text x="500" y="289" text-anchor="middle"></text></g>
+            </g>
+            <!-- lookup beam: a dot that travels from the robot to the object it finds -->
+            <circle class="traveler" id="traveler" cx="330" cy="330" r="6"/>
+            <!-- speech bubble, used in Teach mode -->
+            <g class="speech" id="speech">
+              <rect x="52" y="66" width="252" height="46" rx="10"/>
+              <text class="who" x="68" y="84">PERSON, HOLDING THE MUG</text>
+              <text x="68" y="103">&ldquo;This is my favorite mug.&rdquo;</text>
+            </g>
+          </svg>
 
-    <h2>Experience</h2>
-    <ul>
-      <li><strong>Senior Research Engineer</strong>, Fauna Robotics (an Amazon.com subsidiary) — 2026–present</li>
-      <li><strong>Senior Software Engineer</strong>, Amazon (Astro) — 2020–2026</li>
-      <li><strong>Software Development Engineer</strong>, Amazon (Astro) — 2018–2020</li>
-    </ul>
+          <div class="stage-bar" aria-live="polite">
+            <div class="stage-dots" id="stage-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <div class="stage-text">
+              <p class="stage-count" id="stage-count">Step 1 — Explore</p>
+              <p class="stage-caption" id="stage-caption">The grey, dashed dots are things in the home the robot <strong>hasn&rsquo;t seen yet</strong> — right now its scene graph is empty. Press <strong>Start exploration</strong> and watch it drive through the home: detection finds objects, tracking gives each a persistent ID and a 3D position, and every one becomes a node in the graph.</p>
+            </div>
+          </div>
+        </div>
 
-    <h2>Education</h2>
-    <ul>
-      <li><strong>M.S., Computer Science</strong> — University of California, Irvine</li>
-    </ul>
+        <div class="side-pane">
+          <div id="explore-pane">
+            <p class="q-label">Build the memory — exploration</p>
+            <p class="pane-text">
+              Before the robot can answer anything, it has to <strong>build the memory</strong>. It drives through the
+              home with its RGB+depth cameras on — the dotted line behind it is the route it actually takes.
+              <strong>Object detection</strong> spots things in the feed;
+              <strong>2D/3D tracking</strong> follows each object across views and sessions, giving it a persistent ID
+              and a 3D position; and every tracked object becomes a <strong>node in the scene graph</strong> — watch
+              the graph fill in below as it explores. It also <strong>saves the camera frames</strong> it captures
+              along the way, stored with the graph for questions the graph alone can&rsquo;t answer.
+            </p>
+            <button type="button" class="btn btn-primary" id="explore-btn">&#9654; Start exploration</button>
+            <p class="q-label" style="margin-top:18px">Captured views — images saved while exploring</p>
+            <div class="captures" id="captures" aria-live="polite">
+              <span class="cap-hint" id="cap-hint">No frames yet. As the robot explores, each room it photographs adds a frame here — these stored images are part of its memory, alongside the scene graph.</span>
+            </div>
+            <div class="trace" id="graph-list" style="margin-top:16px" aria-live="polite">
+              <div class="trace-hint" id="graph-empty">The scene graph is <strong>empty</strong> — the robot hasn&rsquo;t explored yet. Press Start exploration, and every object it detects and tracks will appear here as a node.</div>
+            </div>
+            <div class="hook" id="explore-hook">
+              <strong>Memory ready.</strong> Six objects, detected and tracked in 3D, remembered across sessions —
+              plus ten captured frames: a wide view of every room and a close-up of every object found. Together, they are what the robot answers from. <a href="#demo" id="hook-to-ask"><strong>Now ask it a question &rarr;</strong></a>
+              <br/><br/>
+              This sketch leaves out the hard parts: real-time detection on embedded compute, tracking that survives
+              occlusion and moved furniture, a graph that stays consistent across sessions. Wondering how the real
+              system does it? <a href="#contact"><strong>Talk to Rajesh &rarr;</strong></a>
+            </div>
+          </div>
 
-    <h2>Contact</h2>
-    <p>
-      <a href="mailto:padgilwa@amazon.com">padgilwa@amazon.com</a><br>
+          <div id="ask-pane" style="display:none">
+            <p class="q-label">Ask the robot</p>
+            <div class="q-chips" style="margin-top:10px">
+              <button type="button" class="q-chip" data-q="mug">&ldquo;Where is my favorite mug?&rdquo;</button>
+              <button type="button" class="q-chip" data-q="keys">&ldquo;Have you seen my keys?&rdquo;</button>
+              <button type="button" class="q-chip" data-q="book">&ldquo;What was I reading last night?&rdquo;</button>
+              <button type="button" class="q-chip" data-q="plant">&ldquo;When did I last water the plant?&rdquo;</button>
+              <button type="button" class="q-chip" data-q="stove">&ldquo;Was the stove on in the kitchen?&rdquo; <span style="color:var(--amber);font-weight:600">· answered from a captured image, not the graph</span></button>
+            </div>
+            <div class="trace" id="trace" aria-live="polite" style="margin-top:16px">
+              <div class="trace-hint">The robot&rsquo;s steps will appear here, one at a time, in sync with the floor plan. Four steps: <strong>understand → search the scene graph → traverse to the object → answer</strong>. The graph it searches was built by exploration — see the <strong>Explore</strong> tab. One question below works differently: the stove isn&rsquo;t a tracked graph object, so the robot answers it from an <strong>image captured during exploration</strong>.</div>
+            </div>
+            <div class="path-chain" id="path-chain" aria-label="Retrieval path through the scene graph"></div>
+            <div class="replay-row" id="replay-row">
+              <button type="button" class="replay-btn" id="replay-btn">&#8635; Replay this lookup</button>
+            </div>
+            <div class="answer-box" id="answer" role="status"></div>
+            <div class="frame-card" id="frame-card">
+              <h3>Captured frames — Kitchen</h3>
+              <p class="frame-label" style="margin-top:0">FRAME 1 · KITCHEN — WIDE VIEW</p>
+              <svg viewBox="0 0 260 118" role="img" aria-label="Illustrated camera frame of a kitchen stovetop with all four burners off">
+                <rect x="30" y="10" width="200" height="72" rx="8" fill="none" stroke="var(--ink-3)" stroke-width="2"/>
+                <circle cx="75" cy="32" r="12" fill="var(--bg-raised)" stroke="var(--ink-3)" stroke-width="2"/>
+                <circle cx="115" cy="32" r="9" fill="var(--bg-raised)" stroke="var(--ink-3)" stroke-width="2"/>
+                <circle cx="75" cy="62" r="9" fill="var(--bg-raised)" stroke="var(--ink-3)" stroke-width="2"/>
+                <circle cx="115" cy="62" r="12" fill="var(--bg-raised)" stroke="var(--ink-3)" stroke-width="2"/>
+                <circle cx="160" cy="28" r="5" fill="var(--line-strong)"/><circle cx="182" cy="28" r="5" fill="var(--line-strong)"/><circle cx="160" cy="50" r="5" fill="var(--line-strong)"/><circle cx="182" cy="50" r="5" fill="var(--line-strong)"/>
+                <text x="163" y="72" style="font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-3)">KNOBS · OFF</text>
+                <rect x="196" y="22" width="14" height="18" rx="2" fill="var(--accent)"/>
+                <text x="203" y="52" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;fill:var(--ink-3)">MUG</text>
+                <text x="130" y="102" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;fill:var(--amber)">ALL FOUR BURNERS OFF · NO FLAME · SURFACES COOL</text>
+              </svg>
+              <p class="frame-meta">RGB FRAME · KITCHEN · CAPTURED 9:05 AM DURING EXPLORATION · STORED WITH THE SCENE GRAPH</p>
+              <p class="frame-label">FRAME 2 · STOVE — CLOSE-UP, SAME PASS</p>
+              <svg viewBox="0 0 260 118" role="img" aria-label="Illustrated close-up camera frame of a stovetop showing four burners off and control knobs pointing to off">
+                <rect x="18" y="14" width="224" height="76" rx="10" fill="none" stroke="var(--ink-3)" stroke-width="2"/>
+                <circle cx="70" cy="52" r="24" fill="var(--bg-raised)" stroke="var(--ink-3)" stroke-width="2.5"/>
+                <circle cx="130" cy="52" r="19" fill="var(--bg-raised)" stroke="var(--ink-3)" stroke-width="2.5"/>
+                <circle cx="182" cy="52" r="15" fill="var(--bg-raised)" stroke="var(--ink-3)" stroke-width="2.5"/>
+                <circle cx="70" cy="52" r="7" fill="var(--line-strong)"/><circle cx="130" cy="52" r="6" fill="var(--line-strong)"/><circle cx="182" cy="52" r="5" fill="var(--line-strong)"/>
+                <text x="218" y="40" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:9px;fill:var(--ink-3)">KNOBS</text>
+                <text x="218" y="54" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;fill:var(--accent)">↑ OFF</text>
+                <text x="218" y="70" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;fill:var(--accent)">↑ OFF</text>
+                <text x="130" y="108" text-anchor="middle" style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;fill:var(--amber)">NO FLAME · NO GLOW · KNOBS AT OFF</text>
+              </svg>
+              <p class="frame-meta">RGB FRAME · KITCHEN · STOVE CLOSE-UP · CAPTURED 9:05 AM DURING EXPLORATION · STORED WITH THE SCENE GRAPH</p>
+              <p><strong>Read from the images:</strong> the stove is a fixture, not a tracked object — it has no node in the scene graph. Questions about its state are answered from stored exploration frames like these two — a wide room view and a close-up from the same pass — which is why the answer is only as fresh as the last capture.</p>
+            </div>
+            <div class="obj-card" id="obj-card">
+              <h3 id="oc-name">Object</h3>
+              <dl>
+                <dt>Room</dt><dd id="oc-room">—</dd>
+                <dt>Last seen</dt><dd id="oc-seen">—</dd>
+                <dt>How it got into memory</dt><dd id="oc-src">—</dd>
+                <dt>Note</dt><dd id="oc-note">—</dd>
+              </dl>
+            </div>
+            <div class="hook" id="ask-hook">
+              <strong>That&rsquo;s the demo version.</strong> The real system does this on a moving robot, in real
+              time, in real homes — exploration, detection, tracking, and retrieval all under on-device compute
+              limits. Wondering how it works end to end? <a href="#contact"><strong>Talk to Rajesh &rarr;</strong></a>
+            </div>
+          </div>
+
+          <div class="teach-row" id="teach-pane">
+            <p class="q-label">Teach mode</p>
+            <p>
+              In the real system, a person shows the robot something — <em>&ldquo;this is my favorite mug&rdquo;</em> —
+              and the robot registers it into persistent memory using speech, gesture, and context, so it can
+              find and fetch it later. Try it: teach the robot the mug, then switch back to <strong>Ask</strong>
+              and ask where it is.
+            </p>
+            <button type="button" class="teach-btn" id="teach-btn">Teach: &ldquo;This is my favorite mug&rdquo;</button>
+            <div class="trace" id="teach-trace" aria-live="polite">
+              <div class="trace-hint">Four steps again: <strong>hear you → work out which object you mean → save it to memory → keep it for next time</strong>. Press Teach and watch the mug on the plan.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= WORK ================= -->
+  <section id="work" aria-labelledby="work-h">
+    <div class="sec-head"><span class="no">02</span><h2 id="work-h">Selected work</h2></div>
+    <p class="sec-sub">Five threads of work, one through-line: perception systems that hold up on real robots, in real homes, under real compute limits. Details are limited to what is public or shareable — internal data and imagery stay at Amazon.</p>
+
+    <article class="proj" id="eqa">
+      <div class="proj-head">
+        <h3>Embodied Question Answering</h3>
+        <span class="where">Fauna Robotics · 2026–present</span>
+      </div>
+      <div class="tags"><span class="tag hot">Co-technical lead</span><span class="tag">Vision-Language Models</span><span class="tag">3D Scene Graphs</span><span class="tag">2D/3D Tracking</span><span class="tag">Qwen3-VL</span></div>
+      <div class="proj-grid">
+        <div>
+          <p>
+            A humanoid robot that can answer questions about a home — <em>&ldquo;where did I leave my mug?&rdquo;</em>,
+            <em>&ldquo;is the stove off?&rdquo;</em> — needs more than a camera feed. It needs a memory. As
+            <strong>co-technical lead</strong> (with a Principal Engineer), coordinating four researchers, I work on the
+            system that builds and maintains that memory: the robot explores the home, and RGB+depth perception —
+            object detection feeding 2D/3D tracking — is rolled up into a
+            <strong>3D scene graph tracking 400+ household objects</strong> across sessions. Exploration also stores the
+            <strong>camera images</strong> captured along the way, indexed by room and time — so the system can answer
+            questions about things that were never tracked as graph objects at all, like whether the stove was left on,
+            by reading the relevant frame.
+          </p>
+          <p>
+            On top of that representation sits a <strong>fine-tuned Qwen3-VL</strong>, tuned for fast information retrieval
+            from the scene graph ahead of any heavier cloud-model reasoning — the design point that makes answers both
+            grounded and quick. The system reached <strong>72% accuracy on OpenEQA</strong>, the standard benchmark for
+            embodied question answering. The work is carried out in collaboration with an Amazon Scholar.
+          </p>
+        </div>
+        <div class="proj-stats">
+          <div class="stat"><div class="n">72%</div><div class="d">Accuracy on the OpenEQA benchmark</div></div>
+          <div class="stat"><div class="n">400+</div><div class="d">Household objects tracked across sessions</div></div>
+          <div class="stat"><div class="n">4 researchers</div><div class="d">Coordinated as co-technical lead</div></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj" id="teach">
+      <div class="proj-head">
+        <h3>Teach-the-Robot: Human-Teaching Pipeline for Robot Memory</h3>
+        <span class="where">Fauna Robotics · Architect</span>
+      </div>
+      <div class="tags"><span class="tag hot">System architect</span><span class="tag">Multimodal Registration</span><span class="tag">Persistent Memory</span><span class="tag">Human-Robot Interaction</span></div>
+      <div class="proj-grid">
+        <div>
+          <p>
+            Generic object detection knows what a mug is. It doesn&rsquo;t know which mug is <em>yours</em>. I am the
+            <strong>architect</strong> of a team-built pipeline that lets a person teach the robot directly —
+            <em>&ldquo;this is my favorite mug&rdquo;</em> — and have that knowledge stick.
+          </p>
+          <p>
+            The hard part is deciding <em>what</em> to register: the system combines
+            <strong>human speech, gesture, and current context</strong> to determine which object is being taught and
+            what to do next, then writes it into the robot&rsquo;s persistent memory — the same scene-graph memory the
+            question-answering system reads from, so a taught object can later be found and fetched.
+            (The explorer at the top of this page has a Teach mode that walks through exactly this flow.)
+          </p>
+        </div>
+        <div class="proj-stats">
+          <div class="stat"><div class="n">Speech + gesture</div><div class="d">Multimodal signals fused to decide what to register</div></div>
+          <div class="stat"><div class="n">Persistent</div><div class="d">Taught objects remembered across sessions</div></div>
+          <div class="stat"><div class="n">Teach → fetch</div><div class="d">Registered objects become findable and fetchable</div></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj" id="face">
+      <div class="proj-head">
+        <h3>Face Recognition, Shipped to Customers</h3>
+        <span class="where">Amazon Astro · Senior SDE</span>
+      </div>
+      <div class="tags"><span class="tag hot">Shipped</span><span class="tag">On-Device ML</span><span class="tag">TensorFlow Lite</span><span class="tag">Mobile DSP</span><span class="tag">Biometrics</span></div>
+      <div class="proj-grid">
+        <div>
+          <p>
+            Astro needs to know who it is talking to — and on a home robot, a false identification is not a rounding
+            error, it is a trust failure. I trained and deployed the face-recognition model that
+            <strong>shipped to Astro customers</strong>, running on-device under tight compute limits
+            (TensorFlow Lite on a mobile DSP).
+          </p>
+          <p>
+            The deployed model cut false positives <strong>4× from a 1% false-positive-rate baseline</strong> while
+            holding high recall — the operating point that matters when the system runs continuously in someone&rsquo;s
+            living room. Separately, I am a co-inventor on granted US patent US11858143B1 — a distinct system for
+            identifying a user with an autonomous mobile device, not this face-recognition pipeline itself (see Patent below). A companion hands-free face-enrollment flow reached
+            <strong>95% success in internal beta</strong>; it was cancelled before shipping, and I describe it as exactly that.
+          </p>
+        </div>
+        <div class="proj-stats">
+          <div class="stat"><div class="n">4× fewer</div><div class="d">False positives vs. the 1% FPR baseline, at high recall</div></div>
+          <div class="stat"><div class="n">On-device</div><div class="d">Real-time inference on embedded DSP — no cloud round-trip</div></div>
+          <div class="stat"><div class="n">1 patent</div><div class="d">Co-inventor, US11858143B1 — a separate user-identification system (see Patent)</div></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj" id="diagnostics">
+      <div class="proj-head">
+        <h3>VLM Diagnostics at Org Scale</h3>
+        <span class="where">Amazon Astro · Senior SDE</span>
+      </div>
+      <div class="tags"><span class="tag hot">Org-wide adoption</span><span class="tag">VLM Fine-Tuning</span><span class="tag">Root-Cause Analysis</span><span class="tag">Qwen3-VL</span></div>
+      <div class="proj-grid">
+        <div>
+          <p>
+            When a fleet of robots misbehaves, engineers drown in tickets. I built the ML root-cause analysis system
+            that triages Astro production issues: a <strong>fine-tuned Qwen3-VL</strong> performs automated diagnosis
+            and classifies and routes each issue to the right team.
+          </p>
+          <p>
+            Accuracy improved from <strong>50% to 90%</strong>, and the system now serves the
+            <strong>whole Astro organization at 100+ tickets a day</strong>, saving an estimated
+            <strong>1,000+ engineering hours a month</strong>. After I demoed it to Devices leadership, a new
+            organization was formed to scale the MVP — the clearest signal an internal tool can get.
+          </p>
+        </div>
+        <div class="proj-stats">
+          <div class="stat"><div class="n">50% → 90%</div><div class="d">Diagnosis accuracy after VLM fine-tuning</div></div>
+          <div class="stat"><div class="n">100+</div><div class="d">Tickets processed per day, org-wide</div></div>
+          <div class="stat"><div class="n">1,000+ hrs/mo</div><div class="d">Estimated engineering time saved</div></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="proj" id="slam">
+      <div class="proj-head">
+        <h3>Spatial Mapping, Visual SLAM &amp; Scene Reconstruction</h3>
+        <span class="where">Astro / Amazon humanoid work · ongoing</span>
+      </div>
+      <div class="tags"><span class="tag">Visual SLAM</span><span class="tag">SuperPoint / LightGlue</span><span class="tag">Gaussian Splatting</span><span class="tag">Real-to-Sim</span><span class="tag">Scene-Graph Navigation</span></div>
+      <div class="proj-grid">
+        <div>
+          <p>
+            A robot&rsquo;s map is the foundation every other capability stands on. I contribute — on both implementation
+            and evaluation — to Visual SLAM on Astro and Amazon&rsquo;s humanoid robots: researching and
+            <strong>fine-tuning learned keypoint models (SuperPoint, LightGlue)</strong> for the SLAM front end, and
+            building the system that feeds <strong>3D-object signals into the SLAM optimizer</strong> as extra constraints.
+            The result: fewer localization failures and better optimization on the localization side.
+          </p>
+          <p>
+            When SLAM itself is unstable, the team&rsquo;s scene-graph-based global navigation lets the robot move
+            point-to-point through the home using the 3D scene graph instead. In parallel, I work on
+            <strong>multi-camera Gaussian Splatting</strong> to construct scenes as the base for
+            <strong>real-to-sim transfer</strong> — turning real homes into simulation environments robots can practice in.
+          </p>
+        </div>
+        <div class="proj-stats">
+          <div class="stat"><div class="n">Fewer failures</div><div class="d">Localization failures reduced via learned keypoints + object signals</div></div>
+          <div class="stat"><div class="n">2 platforms</div><div class="d">Astro and Amazon humanoid robots</div></div>
+          <div class="stat"><div class="n">Real → Sim</div><div class="d">Gaussian-splatting scene construction for simulation transfer</div></div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ================= EXPERIENCE + INTERESTS ================= -->
+  <section id="experience" aria-labelledby="exp-h">
+    <div class="sec-head"><span class="no">03</span><h2 id="exp-h">Experience</h2></div>
+    <div class="two-col">
+      <ol class="tl">
+        <li>
+          <div class="when">MAR 2026 — PRESENT</div>
+          <h3>Senior Research Engineer — Fauna Robotics</h3>
+          <p>Fauna is an Amazon.com subsidiary (acquired March 2026), continuing the humanoid embodied-AI work I began at Amazon. Co-technical lead for embodied question answering; architect of the teach-the-robot memory pipeline.</p>
+        </li>
+        <li>
+          <div class="when">JUN 2020 — MAR 2026</div>
+          <h3>Senior Software Engineer — Amazon (Astro)</h3>
+          <p>Perception for the Astro home robot: shipped face recognition, the org-wide VLM diagnostics system, Visual SLAM contributions, and the start of the humanoid EQA work. Mentored two PhD interns; 50+ interviews conducted.</p>
+        </li>
+        <li>
+          <div class="when">MAR 2018 — JUL 2020</div>
+          <h3>Software Development Engineer — Amazon (Astro)</h3>
+          <p>Software developer on the Amazon Astro perception team — the start of eight years building production CV/ML for home robots.</p>
+        </li>
+        <li>
+          <div class="when">EDUCATION</div>
+          <h3>M.S., Computer Science — UC Irvine</h3>
+          <p>University of California, Irvine.</p>
+        </li>
+      </ol>
+      <div>
+        <div class="skill-group">
+          <h3>Research interests</h3>
+          <p>Computer vision &amp; robotics perception · Embodied AI · Vision-language models · 3D scene understanding and spatial mapping · People and object tracking · On-device and edge ML</p>
+        </div>
+        <div class="skill-group" id="skills">
+          <h3>Languages &amp; systems</h3>
+          <p>C++, Python · real-time embedded perception · Docker, Kubernetes, AWS SageMaker</p>
+        </div>
+        <div class="skill-group">
+          <h3>ML frameworks &amp; models</h3>
+          <p>PyTorch · TensorFlow / TensorFlow Lite · ONNX · OpenCV · Qwen3-VL fine-tuning · SuperPoint, LightGlue</p>
+        </div>
+        <div class="skill-group">
+          <h3>Spatial &amp; embodied</h3>
+          <p>Visual SLAM · 3D scene graphs · Gaussian Splatting · 2D/3D tracking · edge deployment · active learning</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PATENT ================= -->
+  <section id="patent" aria-labelledby="patent-h">
+    <div class="sec-head"><span class="no">04</span><h2 id="patent-h">Patent</h2></div>
+    <div class="patent">
+      <div class="seal" aria-hidden="true"><span>US PATENT</span><b>2024</b><span>GRANTED</span></div>
+      <div>
+        <h3><a href="https://patents.google.com/patent/US11858143B1/en" target="_blank" rel="noopener">US11858143B1 — System for identifying a user with an autonomous mobile device</a></h3>
+        <p>
+          Granted January 2024 · Assignee: Amazon Technologies, Inc. · Co-inventor with Chi Liu, Wei Wang, Ning Zhou,
+          and Kah Kuen Fu. A system for identifying a user with an autonomous mobile device — using neural-network feature vectors and stereo
+          cameras to identify and follow the right user. This is a distinct user-identification system, separate from the face-recognition pipeline described above, though both sit in the same people-perception area of the Astro work.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <div class="contact-band" id="contact">
+    <div>
+      <h2>Let&rsquo;s talk robots.</h2>
+      <p>I&rsquo;m interested in robotics perception, embodied AI, and spatial intelligence — and in teams shipping ML that has to work on real hardware, in real homes.</p>
+    </div>
+    <div class="contact-links">
       <a href="mailto:rajesh.padgilwar@gmail.com">rajesh.padgilwar@gmail.com</a>
-    </p>
+      <a href="mailto:padgilwa@amazon.com">padgilwa@amazon.com</a>
+      <a href="https://www.linkedin.com/in/rajesh-padgilwar" target="_blank" rel="noopener">LinkedIn — /in/rajesh-padgilwar</a>
+      <a href="https://github.com/rpadgilw" target="_blank" rel="noopener">GitHub — @rpadgilw</a>
+    </div>
+  </div>
 
-    <footer>
-      Rajesh Padgilwar &middot; Computer Vision &middot; Robotics Perception &middot; Embodied AI
-    </footer>
-  </main>
+  <footer>
+    <span>Rajesh Padgilwar · Computer Vision · Robotics Perception · Embodied AI</span>
+    <span>Sunnyvale, California</span>
+  </footer>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var OBJECTS = {
+    mug:    {name:"Favorite mug", room:"Kitchen", seen:"Today, 8:12 AM", src:"Taught by owner — “this is my favorite mug”", note:"Registered via teach pipeline; fetchable on request.", taught:false,
+             answer:"Your favorite mug is in the <strong>kitchen</strong>, on the counter by the sink — last seen today at 8:12 AM. You taught me this mug yourself, so I know it’s yours, not just any mug."},
+    keys:   {name:"Keys", room:"Entryway", seen:"Yesterday, 6:40 PM", src:"Detected & tracked (2D/3D tracking)", note:"Usual spot: entryway tray, 9 of last 10 sightings.",
+             answer:"Yes — your keys are in the <strong>entryway</strong>, in the tray by the door. Last seen yesterday at 6:40 PM, which is their usual spot."},
+    book:   {name:"Novel (paperback)", room:"Bedroom", seen:"Last night, 11:05 PM", src:"Detected & tracked (2D/3D tracking)", note:"On the nightstand, bookmark at roughly two-thirds through.",
+             answer:"You were reading a <strong>paperback novel</strong> — it’s still on your <strong>bedroom nightstand</strong>, where you left it last night at 11:05 PM."},
+    plant:  {name:"Monstera plant", room:"Living Room", seen:"Today, 9:03 AM", src:"Detected & tracked (2D/3D tracking)", note:"Watering logged 6 days ago (owner-reported).",
+             answer:"The monstera in the <strong>living room</strong> was last watered <strong>6 days ago</strong>. Based on its usual schedule, it’s due again today."},
+    shoes:  {name:"Running shoes", room:"Entryway", seen:"Today, 7:15 AM", src:"Detected & tracked (2D/3D tracking)", note:"Paired; by the door mat."},
+    remote: {name:"TV remote", room:"Living Room", seen:"Today, 9:20 AM", src:"Detected & tracked (2D/3D tracking)", note:"On the sofa’s left cushion."}
+  };
+  var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var timers = [], rafId = null;
+  function clearTimers(){
+    timers.forEach(clearTimeout); timers = [];
+    if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    if(moveRaf){ cancelAnimationFrame(moveRaf); moveRaf = null; }
+    if(coneRaf){ cancelAnimationFrame(coneRaf); coneRaf = null; }
+  }
+  function later(fn, ms){ if(REDUCED){ fn(); } else { timers.push(setTimeout(fn, ms)); } }
+
+  var traceBox = document.getElementById("trace");
+  var teachTraceBox = document.getElementById("teach-trace");
+  var answerBox = document.getElementById("answer");
+  var objCard = document.getElementById("obj-card");
+  var frameCard = document.getElementById("frame-card");
+  var pulse = document.getElementById("pulse");
+  var robotDot = document.getElementById("robot-dot");
+  var traveler = document.getElementById("traveler");
+  var speech = document.getElementById("speech");
+  var stageCount = document.getElementById("stage-count");
+  var stageCaption = document.getElementById("stage-caption");
+  var stageDots = document.querySelectorAll("#stage-dots i");
+  var replayRow = document.getElementById("replay-row");
+  var ORDER = ["mug","keys","shoes","remote","plant","book"];
+  var lastAsk = null, playing = false;
+
+  /* ---------- exploration refs & constants ---------- */
+  var cone = document.getElementById("cone");
+  var robotLabel = document.getElementById("robot-label");
+  var graphList = document.getElementById("graph-list");
+  var exploreBtn = document.getElementById("explore-btn");
+  var exploreHook = document.getElementById("explore-hook");
+  var pathChain = document.getElementById("path-chain");
+  var askHook = document.getElementById("ask-hook");
+  var stageDotsBox = document.getElementById("stage-dots");
+  var moveRaf = null, coneRaf = null;
+  var graphBuilt = false, explorePlaying = false, trackCounter = 0;
+  var currentMode = "explore";
+  var HOME = {x:330, y:330};
+  var OBJ_POS = {mug:[180,130], keys:[520,90], shoes:[520,185], remote:[215,215], plant:[110,350], book:[500,330]};
+  var OBJ_ROOM_KEY = {mug:"kitchen", keys:"entryway", shoes:"entryway", remote:"living", plant:"living", book:"bedroom"};
+  var DET_LABEL = {mug:"mug", keys:"keys", shoes:"shoes", remote:"remote", plant:"monstera", book:"novel"};
+  var trail = document.getElementById("trail");
+  var trailDotsG = document.getElementById("trail-dots");
+  var flash = document.getElementById("flash");
+  var flashRect = document.getElementById("flash-rect");
+  var flashTag = document.getElementById("flash-tag");
+  var capturesBox = document.getElementById("captures");
+  var trailPts = [], trailActive = false;
+  var ROOM_RECT = {living:[30,236,270,204], kitchen:[30,30,270,190], entryway:[316,30,294,190], bedroom:[316,236,294,204]};
+  function setDots(n){
+    stageDotsBox.innerHTML = "";
+    for(var i=0;i<n;i++){ stageDotsBox.appendChild(document.createElement("i")); }
+    stageDots = stageDotsBox.querySelectorAll("i");
+  }
+
+  /* ---------- shared helpers ---------- */
+  function setStage(idx, total, title, html){
+    stageCount.textContent = title;
+    stageCaption.innerHTML = html;
+    stageDots.forEach(function(d, i){
+      d.classList.toggle("done", i < idx);
+      d.classList.toggle("active", i === idx);
+    });
+    if(idx >= total){ stageDots.forEach(function(d){ d.classList.add("done"); d.classList.remove("active"); }); }
+  }
+  function renderSteps(box, steps){
+    box.innerHTML = "";
+    steps.forEach(function(s, i){
+      var div = document.createElement("div");
+      div.className = "step";
+      div.innerHTML = '<div class="num"><span>'+(i+1)+'</span></div><div class="body"><span class="k"></span><span class="main"></span> <span class="detail"></span></div>';
+      div.querySelector(".k").textContent = s.k;
+      div.querySelector(".main").textContent = s.main;
+      div.querySelector(".detail").textContent = s.detail || "";
+      box.appendChild(div);
+    });
+    return box.querySelectorAll(".step");
+  }
+  function setStep(steps, idx, state){
+    steps.forEach(function(s, i){
+      s.classList.toggle("active", i === idx && state === "active");
+      s.classList.toggle("done", i < idx || (i === idx && state === "done"));
+    });
+  }
+  function resetScene(){
+    document.querySelectorAll(".edge").forEach(function(e){ e.classList.remove("hot","scan","hidden"); });
+    document.querySelectorAll(".obj").forEach(function(o){ o.classList.remove("hot","dim","scan","found","undiscovered"); });
+    document.querySelectorAll(".room").forEach(function(r){ r.classList.remove("lit"); });
+    document.querySelectorAll(".detbox").forEach(function(b){ b.classList.remove("show"); });
+    traveler.style.opacity = "0";
+    flash.classList.remove("show");
+    speech.classList.remove("show");
+    robotDot.classList.remove("robot-thinking");
+    cone.classList.remove("on");
+    cone.setAttribute("d", "");
+    setRobot(HOME.x, HOME.y);
+    pathChain.classList.remove("show");
+    askHook.classList.remove("show");
+  }
+  function travelTo(key, dur, done){
+    var edge = document.querySelector('[data-edge="robot-'+key+'"]');
+    if(!edge || REDUCED){ if(done) done(); return; }
+    var x1 = +edge.getAttribute("x1"), y1 = +edge.getAttribute("y1");
+    var x2 = +edge.getAttribute("x2"), y2 = +edge.getAttribute("y2");
+    var t0 = null;
+    traveler.setAttribute("cx", x1); traveler.setAttribute("cy", y1);
+    traveler.style.opacity = "1";
+    function frame(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      var e = 1 - Math.pow(1 - p, 2);
+      traveler.setAttribute("cx", x1 + (x2 - x1) * e);
+      traveler.setAttribute("cy", y1 + (y2 - y1) * e);
+      if(p < 1){ rafId = requestAnimationFrame(frame); }
+      else { rafId = null; traveler.style.opacity = "0"; if(done) done(); }
+    }
+    rafId = requestAnimationFrame(frame);
+  }
+  function showObjCard(key){
+    var o = OBJECTS[key]; if(!o) return;
+    document.getElementById("oc-name").textContent = o.name;
+    document.getElementById("oc-room").textContent = o.room;
+    document.getElementById("oc-seen").textContent = o.seen;
+    document.getElementById("oc-src").textContent = o.src;
+    document.getElementById("oc-note").textContent = o.note;
+    objCard.classList.add("show");
+  }
+
+  /* ---------- exploration: build the scene graph ---------- */
+  function drawCone(x, y, ang){
+    var L = 125, S = 0.5;
+    var x1 = x + L * Math.cos(ang - S), y1 = y + L * Math.sin(ang - S);
+    var x2 = x + L * Math.cos(ang + S), y2 = y + L * Math.sin(ang + S);
+    cone.setAttribute("d", "M" + x + " " + y + " L" + x1.toFixed(1) + " " + y1.toFixed(1) + " L" + x2.toFixed(1) + " " + y2.toFixed(1) + " Z");
+  }
+  function setRobot(x, y, heading){
+    robotDot.setAttribute("cx", x); robotDot.setAttribute("cy", y);
+    robotLabel.setAttribute("x", x); robotLabel.setAttribute("y", y + 32);
+    if(heading !== undefined && cone.classList.contains("on")) drawCone(x, y, heading);
+  }
+  function moveRobot(x, y, done){
+    var fx = +robotDot.getAttribute("cx"), fy = +robotDot.getAttribute("cy");
+    var dx = x - fx, dy = y - fy;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    var ang = Math.atan2(dy, dx);
+    if(REDUCED || dist < 2){ setRobot(x, y, ang); trailPush(x, y); if(done) done(); return; }
+    var dur = Math.max(450, dist / 0.16), t0 = null;
+    function frame(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      var e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      var nx = fx + dx * e, ny = fy + dy * e;
+      setRobot(nx, ny, ang);
+      trailPush(nx, ny);
+      if(p < 1){ moveRaf = requestAnimationFrame(frame); }
+      else { moveRaf = null; if(done) done(); }
+    }
+    moveRaf = requestAnimationFrame(frame);
+  }
+  /* ---------- exploration trail & captured frames ---------- */
+  function trailPush(x, y){
+    if(!trailActive) return;
+    var n = trailPts.length;
+    if(n){
+      var dx = x - trailPts[n-1][0], dy = y - trailPts[n-1][1];
+      if(dx * dx + dy * dy < 30) return;
+    }
+    trailPts.push([x, y]);
+    trail.setAttribute("d", "M" + trailPts.map(function(p){ return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" L"));
+  }
+  function trailDot(x, y){
+    var c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    c.setAttribute("class", "trail-dot");
+    c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", 4.5);
+    trailDotsG.appendChild(c);
+  }
+  function trailClear(){
+    trailPts = []; trailActive = false;
+    trail.setAttribute("d", "");
+    trail.classList.remove("done");
+    trailDotsG.innerHTML = "";
+  }
+  function placeFlash(key){
+    var r = ROOM_RECT[key]; if(!r) return;
+    flashRect.setAttribute("x", r[0]); flashRect.setAttribute("y", r[1]);
+    flashRect.setAttribute("width", r[2]); flashRect.setAttribute("height", r[3]);
+    flashTag.setAttribute("x", r[0] + 12); flashTag.setAttribute("y", r[1] + 24);
+  }
+  function flashRoom(key){
+    placeFlash(key);
+    flash.classList.add("show");
+    later(function(){ flash.classList.remove("show"); }, 750);
+  }
+  var CAPTURE_ART = {
+    living:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="8" y="32" width="46" height="11" rx="3" fill="var(--line-strong)"/><rect x="8" y="24" width="46" height="10" rx="3" fill="var(--ink-3)" opacity=".5"/><rect x="66" y="34" width="10" height="9" fill="var(--amber)"/><circle cx="71" cy="24" r="7" fill="var(--accent)"/><circle cx="64" cy="28" r="5" fill="var(--accent)"/></svg>',
+    kitchen:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="6" y="32" width="72" height="5" fill="var(--line-strong)"/><rect x="46" y="15" width="28" height="17" fill="none" stroke="var(--ink-3)" stroke-width="1.6"/><circle cx="54" cy="20" r="2.6" fill="var(--ink-3)"/><circle cx="66" cy="20" r="2.6" fill="var(--ink-3)"/><circle cx="54" cy="27" r="2.6" fill="var(--ink-3)"/><circle cx="66" cy="27" r="2.6" fill="var(--ink-3)"/><rect x="16" y="21" width="8" height="11" fill="var(--accent)"/></svg>',
+    entryway:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="30" y="6" width="24" height="44" fill="none" stroke="var(--ink-3)" stroke-width="1.6"/><circle cx="49" cy="28" r="2" fill="var(--ink-3)"/><rect x="8" y="38" width="18" height="4" fill="var(--line-strong)"/><circle cx="13" cy="34" r="2.4" fill="var(--amber)"/><circle cx="20" cy="34" r="2.4" fill="var(--amber)"/><path d="M58 44 l12 -4 l2 6 l-13 3 z" fill="var(--accent)"/></svg>',
+    bedroom:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="10" y="24" width="52" height="20" rx="3" fill="var(--line-strong)"/><rect x="14" y="27" width="16" height="8" rx="2" fill="var(--bg-raised)"/><rect x="66" y="30" width="12" height="14" fill="var(--ink-3)" opacity=".5"/><rect x="68" y="24" width="8" height="6" fill="var(--amber)"/></svg>'
+  };
+  var CAPTURE_META = {living:["Living Room","9:03 AM"], kitchen:["Kitchen","9:05 AM"], entryway:["Entryway","9:07 AM"], bedroom:["Bedroom","9:09 AM"]};
+  function addCapture(key){
+    if(!CAPTURE_ART[key] || capturesBox.querySelector('[data-cap="' + key + '"]')) return;
+    var hint = capturesBox.querySelector(".cap-hint");
+    if(hint) hint.remove();
+    var meta = CAPTURE_META[key];
+    var fig = document.createElement("figure");
+    fig.className = "cap";
+    fig.setAttribute("data-cap", key);
+    fig.innerHTML = CAPTURE_ART[key] + "<figcaption>" + meta[0].toUpperCase() + " · RGB<br/>CAPTURED " + meta[1] + "</figcaption>";
+    capturesBox.appendChild(fig);
+  }
+  var OBJ_CAPTURE_ART = {
+    mug:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="10" y="44" width="64" height="4" fill="var(--line-strong)"/><rect x="30" y="16" width="22" height="28" rx="3" fill="var(--accent)"/><path d="M52 22 q12 4 0 14" fill="none" stroke="var(--accent)" stroke-width="3"/><path d="M35 10 q3 -4 0 -8 M44 10 q3 -4 0 -8" fill="none" stroke="var(--ink-3)" stroke-width="1.6"/></svg>',
+    keys:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="8" y="40" width="34" height="5" fill="var(--line-strong)"/><circle cx="52" cy="20" r="8" fill="none" stroke="var(--amber)" stroke-width="2.5"/><path d="M58 26 l10 12 M64 32 l5 -1 M67 36 l5 -1" stroke="var(--amber)" stroke-width="2.5" fill="none"/><circle cx="30" cy="30" r="6" fill="none" stroke="var(--ink-3)" stroke-width="2"/><path d="M34 35 l7 8 M38 39 l4 0" stroke="var(--ink-3)" stroke-width="2" fill="none"/></svg>',
+    shoes:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="6" y="44" width="72" height="4" fill="var(--line-strong)"/><path d="M10 42 v-10 l14 -8 q4 8 12 10 l8 2 q4 1 4 6 z" fill="var(--accent)"/><path d="M38 42 v-8 l12 -6 q3 7 10 9 l7 2 q3 1 3 5 z" fill="var(--amber)"/></svg>',
+    remote:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="8" y="30" width="52" height="12" rx="3" fill="var(--line-strong)"/><rect x="30" y="10" width="11" height="34" rx="5" fill="var(--ink)"/><circle cx="35.5" cy="17" r="2.6" fill="var(--amber)"/><circle cx="35.5" cy="25" r="2.2" fill="var(--bg-raised)"/><circle cx="35.5" cy="32" r="2.2" fill="var(--bg-raised)"/></svg>',
+    plant:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><path d="M34 48 h16 l-2 8 h-12 z" fill="var(--amber)"/><path d="M42 46 C30 38 26 26 28 14 C40 18 44 30 42 46 M42 46 C52 36 58 28 62 18 C50 20 44 32 42 46 M42 46 C42 34 40 24 34 16" fill="none" stroke="var(--accent)" stroke-width="2.5"/></svg>',
+    book:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="52" y="36" width="26" height="10" fill="var(--ink-3)" opacity=".5"/><path d="M14 18 q14 -6 28 0 v26 q-14 -6 -28 0 z M42 18 q14 -6 28 0 v26 q-14 -6 -28 0 z" fill="var(--bg-raised)" stroke="var(--accent)" stroke-width="2"/><path d="M56 18 v22" stroke="var(--amber)" stroke-width="3"/></svg>'
+  };
+  var OBJ_CAPTURE_META = {mug:["Mug · close-up","9:05 AM"], keys:["Keys · close-up","9:07 AM"], shoes:["Shoes · close-up","9:07 AM"], remote:["Remote · close-up","9:03 AM"], plant:["Monstera · close-up","9:03 AM"], book:["Novel · close-up","9:09 AM"]};
+  function addObjectCapture(key){
+    if(!OBJ_CAPTURE_ART[key] || capturesBox.querySelector('[data-cap="obj-' + key + '"]')) return;
+    var hint = capturesBox.querySelector(".cap-hint");
+    if(hint) hint.remove();
+    var meta = OBJ_CAPTURE_META[key];
+    var fig = document.createElement("figure");
+    fig.className = "cap obj-cap";
+    fig.setAttribute("data-cap", "obj-" + key);
+    fig.innerHTML = OBJ_CAPTURE_ART[key] + "<figcaption>" + meta[0].toUpperCase() + "<br/>CAPTURED " + meta[1] + "</figcaption>";
+    capturesBox.appendChild(fig);
+  }
+  function resetCaptures(msg){
+    capturesBox.innerHTML = "";
+    var span = document.createElement("span");
+    span.className = "cap-hint";
+    span.textContent = msg;
+    capturesBox.appendChild(span);
+  }
+  function sweepCone(x, y, baseAng, dur, done){
+    if(REDUCED){ if(done) done(); return; }
+    var t0 = null;
+    function frame(ts){
+      if(!t0) t0 = ts;
+      var p = (ts - t0) / dur;
+      drawCone(x, y, baseAng + Math.sin(p * Math.PI * 2.2) * 0.55);
+      if(p < 1){ coneRaf = requestAnimationFrame(frame); }
+      else { coneRaf = null; if(done) done(); }
+    }
+    coneRaf = requestAnimationFrame(frame);
+  }
+  function addTag(key, n){
+    var node = document.querySelector('.obj[data-obj="' + key + '"]');
+    if(!node || node.querySelector(".tracktag")) return;
+    var t = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    t.setAttribute("class", "tracktag");
+    t.setAttribute("x", OBJ_POS[key][0] + 20);
+    t.setAttribute("y", OBJ_POS[key][1] - 12);
+    t.textContent = "#" + n;
+    node.appendChild(t);
+  }
+  function addGraphEntry(key, n){
+    var empty = document.getElementById("graph-empty");
+    if(empty) empty.remove();
+    var o = OBJECTS[key];
+    var div = document.createElement("div");
+    div.className = "g-entry";
+    div.innerHTML = '<span class="g-check">✓</span><div><strong></strong> — <span class="g-room"></span><span class="g-sub"></span></div>';
+    div.querySelector("strong").textContent = o.name;
+    div.querySelector(".g-room").textContent = o.room;
+    div.querySelector(".g-sub").textContent = "track #" + n + " · 3D position, last-seen + captured frame stored · node added to scene graph";
+    graphList.appendChild(div);
+  }
+  function detect(key){
+    trackCounter++;
+    var n = trackCounter;
+    var node = document.querySelector('.obj[data-obj="' + key + '"]');
+    var box = document.querySelector('[data-det="' + key + '"]');
+    var edge = document.querySelector('[data-edge="robot-' + key + '"]');
+    if(box) box.querySelector("text").textContent = DET_LABEL[key] + " · track #" + n;
+    if(node){ node.classList.remove("undiscovered"); node.classList.add("scan"); }
+    if(box) box.classList.add("show");
+    if(edge) edge.classList.remove("hidden");
+    addGraphEntry(key, n);
+    later(function(){ addObjectCapture(key); }, 600);
+    stageDots.forEach(function(d, i){ d.classList.toggle("done", i < n); d.classList.remove("active"); });
+    later(function(){
+      if(box) box.classList.remove("show");
+      if(node) node.classList.remove("scan");
+      addTag(key, n);
+    }, 950);
+  }
+  var STOPS = [
+    {x:175, y:315, room:"living", finds:["plant","remote"]},
+    {x:240, y:170, room:"kitchen", finds:["mug"]},
+    {x:465, y:130, room:"entryway", finds:["keys","shoes"]},
+    {x:440, y:320, room:"bedroom", finds:["book"]}
+  ];
+  var STOP_CAPTIONS = [
+    {count:"Step 2 of 3 — Detect & track", html:"In the <strong>living room</strong>, object detection boxes what the cameras see — the monstera, the TV remote — and <strong>2D/3D tracking</strong> takes over: each object gets a <strong>persistent track ID</strong> (the # tags) and a <strong>3D position</strong>. Their nodes appear in the graph panel as they are found."},
+    {count:"Step 3 of 3 — Build the scene graph", html:"In the <strong>kitchen</strong>, the tracked mug becomes a <strong>node in the scene graph</strong>: what it is, which room, where in 3D, when it was last seen. The dashed line to the robot is the stored link it will follow to find the mug again."},
+    {count:"Step 3 of 3 — Build the scene graph", html:"The <strong>entryway</strong>: keys and running shoes join the graph. Tracking keeps their entries current as things move — the graph stores where each object was <strong>last seen</strong>."},
+    {count:"Step 3 of 3 — Build the scene graph", html:"The <strong>bedroom</strong>: the novel on the nightstand completes the sweep. Every room visited, every detected object a node in the graph."}
+  ];
+  function runSeq(actions, i){
+    if(i >= actions.length) return;
+    actions[i](function(){ runSeq(actions, i + 1); });
+  }
+  function finishExplore(){
+    explorePlaying = false; graphBuilt = true;
+    trailActive = false; trail.classList.add("done");
+    cone.classList.remove("on"); cone.setAttribute("d", "");
+    exploreBtn.disabled = false;
+    exploreBtn.textContent = "↻ Replay exploration";
+    exploreHook.classList.add("show");
+    stageDots.forEach(function(d){ d.classList.add("done"); d.classList.remove("active"); });
+    stageCount.textContent = "Memory ready — scene graph built";
+    stageCaption.innerHTML = "Exploration complete: <strong>6 objects</strong> detected, tracked in 3D, and stored as a persistent scene graph — plus <strong>10 captured frames</strong> kept alongside it: a wide view of every room, and a close-up of every object it found. The faded dotted line is the route it drove. Now the robot can answer questions by lookup — switch to <strong>Ask a question</strong>, or replay the exploration.";
+  }
+  function playExplore(){
+    clearTimers(); resetScene();
+    explorePlaying = true; trackCounter = 0;
+    graphList.innerHTML = '<div class="trace-hint" id="graph-empty">Exploring… watch this graph fill in as objects are detected and tracked.</div>';
+    exploreHook.classList.remove("show");
+    exploreBtn.disabled = true; exploreBtn.textContent = "Exploring…";
+    trailClear(); trailActive = true;
+    resetCaptures("Exploring… a frame appears here each time the robot photographs a room.");
+    setDots(6);
+    document.querySelectorAll(".obj").forEach(function(n){ n.classList.add("undiscovered"); });
+    document.querySelectorAll(".edge").forEach(function(e){ e.classList.add("hidden"); });
+    document.querySelectorAll(".tracktag").forEach(function(t){ t.remove(); });
+    cone.classList.add("on");
+    setRobot(HOME.x, HOME.y, -2.2);
+    trailPush(HOME.x, HOME.y);
+    stageCount.textContent = "Step 1 of 3 — Explore";
+    stageCaption.innerHTML = "The robot leaves its dock and drives through the home, <strong>RGB+depth cameras on</strong> — the shaded wedge is what its cameras see. Everything it will ever answer starts as pixels and depth.";
+    var actions = [];
+    STOPS.forEach(function(stop, si){
+      actions.push(function(next){ moveRobot(stop.x, stop.y, next); });
+      actions.push(function(next){
+        var cap = STOP_CAPTIONS[si];
+        stageCount.textContent = cap.count;
+        stageCaption.innerHTML = cap.html;
+        trailDot(stop.x, stop.y);
+        var fp = OBJ_POS[stop.finds[0]];
+        var baseAng = Math.atan2(fp[1] - stop.y, fp[0] - stop.x);
+        stop.finds.forEach(function(k, fi){ later(function(){ detect(k); }, 250 + fi * 450); });
+        later(function(){ flashRoom(stop.room); addCapture(stop.room); }, 1150);
+        sweepCone(stop.x, stop.y, baseAng, 1550, next);
+      });
+    });
+    actions.push(function(next){ moveRobot(HOME.x, HOME.y, next); });
+    actions.push(function(next){ finishExplore(); next(); });
+    runSeq(actions, 0);
+  }
+  function setupExploreStage(){
+    setDots(6);
+    exploreBtn.disabled = false;
+    explorePlaying = false;
+    if(graphBuilt){
+      exploreBtn.textContent = "↻ Replay exploration";
+      exploreHook.classList.add("show");
+      stageDots.forEach(function(d){ d.classList.add("done"); });
+      stageCount.textContent = "Memory ready — scene graph built";
+      stageCaption.innerHTML = "The scene graph is built: six objects, detected and tracked in 3D, remembered across sessions. Switch to <strong>Ask a question</strong> to watch the robot answer from it — or replay the exploration.";
+    } else {
+      exploreBtn.textContent = "▶ Start exploration";
+      trailClear();
+      resetCaptures("No frames yet. As the robot explores, each room it photographs adds a frame here — these stored images are part of its memory, alongside the scene graph.");
+      exploreHook.classList.remove("show");
+      graphList.innerHTML = '<div class="trace-hint" id="graph-empty">The scene graph is <strong>empty</strong> — the robot hasn&rsquo;t explored yet. Press Start exploration, and every object it detects and tracks will appear here as a node.</div>';
+      document.querySelectorAll(".tracktag").forEach(function(t){ t.remove(); });
+      document.querySelectorAll(".obj").forEach(function(n){ n.classList.add("undiscovered"); });
+      document.querySelectorAll(".edge").forEach(function(e){ e.classList.add("hidden"); });
+      stageCount.textContent = "Step 1 — Explore";
+      stageCaption.innerHTML = "The grey, dashed dots are things in the home the robot <strong>hasn&rsquo;t seen yet</strong> — right now its scene graph is empty. Press <strong>Start exploration</strong> and watch it drive through the home: detection finds objects, tracking gives each a persistent ID and a 3D position, and every one becomes a node in the graph.";
+    }
+  }
+
+  /* ---------- ask: a four-step narrated lookup ---------- */
+  var ASK_TEXT = {
+    mug:    {target:"favorite mug", extra:"It\u2019s a specific mug \u2014 the one you taught it \u2014 not just any mug."},
+    keys:   {target:"keys", extra:"Keys move around, so the robot relies on where it saw them last."},
+    book:   {target:"what you were reading", extra:"The robot answers from what it tracked last night, not from the words in the book."},
+    plant:  {target:"monstera plant \u2014 and when it was watered", extra:"Some answers combine what the robot saw with what you told it."}
+  };
+  function ask(key){
+    clearTimers(); resetScene();
+    /* Ask mode draws NO lines on the plan: the robot answers from memory where it
+       stands, so the graph's spoke edges stay hidden here — the retrieval path is
+       shown by the chips lighting up under the steps, not by a line across rooms. */
+    document.querySelectorAll(".edge").forEach(function(e){ e.classList.add("hidden"); });
+    playing = true; lastAsk = key;
+    objCard.classList.remove("show");
+    frameCard.classList.remove("show");
+    answerBox.classList.remove("show"); answerBox.innerHTML = "";
+    replayRow.classList.remove("show");
+    document.querySelectorAll(".q-chip").forEach(function(c){ c.classList.toggle("active", c.getAttribute("data-q")===key); });
+    if(key === "stove"){ askStove(); return; }
+    var o = OBJECTS[key]; if(!o || !o.answer){ playing = false; return; }
+    var t = ASK_TEXT[key];
+    var steps = renderSteps(traceBox, [
+      {k:"1 · Understand", main:"You\u2019re asking about: " + t.target + ".", detail:t.extra},
+      {k:"2 · Search the scene graph", main:"Searching the memory built during exploration, object by object\u2026", detail:"6 tracked objects \u00B7 rooms \u00B7 3D positions \u00B7 last-seen times."},
+      {k:"3 · Traverse the graph", main:o.name + " \u2014 " + o.room + ".", detail:"Path in memory: question \u2192 scene graph \u2192 " + o.room + " \u2192 " + o.name + ". Last seen " + o.seen.toLowerCase() + ". The robot stays where it is \u2014 this path is followed in the graph, not on the floor."},
+      {k:"4 · Answer", main:"Replying with the place and the last-seen time.", detail:"A lookup, not a guess."}
+    ]);
+    var node = document.querySelector('.obj[data-obj="'+key+'"]');
+
+    /* Step 1 — understand */
+    setStep(steps, 0, "active");
+    setStage(0, 4, "Step 1 of 4 — Understand the question",
+      "First, the robot works out <strong>what you\u2019re asking about</strong>: the <strong>" + t.target + "</strong>. The orange dot is the robot.");
+    robotDot.classList.add("robot-thinking");
+    pulse.classList.remove("go"); void pulse.getBBox(); pulse.classList.add("go");
+
+    /* Step 2 — search: a visible sweep across all remembered objects */
+    later(function(){
+      setStep(steps, 1, "active");
+      setStage(1, 4, "Step 2 of 4 — Search the scene graph",
+        "Now it <strong>searches the scene graph</strong> — the memory built during exploration, shown on this plan. Watch each tracked object light up as the robot checks it, one by one.");
+      ORDER.forEach(function(k2, i){
+        later(function(){
+          document.querySelectorAll(".obj").forEach(function(n){ n.classList.remove("scan"); });
+          var n2 = document.querySelector('.obj[data-obj="'+k2+'"]');
+          if(n2) n2.classList.add("scan");
+        }, i * 300);
+      });
+    }, 1500);
+
+    /* Step 3 — traverse IN MEMORY: no line is drawn on the plan and the robot
+       does not move. The path lights up chip by chip under the steps; a pulse
+       leaves the robot, the target room lights, and the found object pops. */
+    later(function(){
+      setStep(steps, 2, "active");
+      document.querySelectorAll(".obj").forEach(function(n){ n.classList.remove("scan"); });
+      var roomG = document.querySelector('.room[data-room="' + OBJ_ROOM_KEY[key] + '"]');
+      pathChain.innerHTML = "";
+      var chipEls = [];
+      ["Your question", "Scene graph", o.room, o.name].forEach(function(label, i, arr){
+        var chip = document.createElement("span");
+        chip.className = "p-chip" + (i === arr.length - 1 ? " end" : "");
+        chip.textContent = label;
+        chip.style.opacity = "0.22";
+        chip.style.transform = "scale(0.94)";
+        pathChain.appendChild(chip);
+        chipEls.push(chip);
+        if(i < arr.length - 1){
+          var ar = document.createElement("span");
+          ar.className = "p-arrow"; ar.textContent = "→"; ar.style.opacity = "0.22";
+          pathChain.appendChild(ar);
+          chipEls.push(ar);
+        }
+      });
+      pathChain.classList.add("show");
+      setStage(2, 4, "Step 3 of 4 — Traverse the graph",
+        "Match found. Notice what does <strong>not</strong> happen: no line is drawn and the robot <strong>doesn't drive anywhere</strong> — it follows the path <strong>in its memory</strong>, chip by chip under the steps: <strong>question → scene graph → " + o.room.toLowerCase() + " → " + o.name.toLowerCase() + "</strong>. A pulse leaves the robot, the " + o.room.toLowerCase() + " lights up, and the object itself pops when the path reaches it.");
+      pulse.classList.remove("go"); void pulse.getBBox(); pulse.classList.add("go");
+      chipEls.forEach(function(el, i){
+        later(function(){
+          el.style.opacity = "1";
+          el.style.transform = "scale(1)";
+          if(i === chipEls.length - 1){
+            if(roomG) roomG.classList.add("lit");
+            if(node){ node.classList.add("hot","found"); }
+            document.querySelectorAll(".obj").forEach(function(n){ if(n !== node) n.classList.add("dim"); });
+          }
+        }, 150 + i * 150);
+      });
+    }, 3600);
+
+    /* Step 4 — answer */
+    later(function(){
+      setStep(steps, 3, "active");
+      robotDot.classList.remove("robot-thinking");
+      setStage(3, 4, "Step 4 of 4 — Answer",
+        "Finally, the robot <strong>answers out loud</strong> using what it found — the place, and when it last saw it. The card below the steps is the actual memory entry it read.");
+      answerBox.innerHTML = "<strong>Robot:</strong> " + o.answer;
+      answerBox.classList.add("show");
+      showObjCard(key);
+    }, 4900);
+
+    later(function(){
+      setStep(steps, 3, "done");
+      setStage(4, 4, "Done — that was a graph lookup",
+        "Four steps: <strong>understand → search the graph → traverse → answer</strong>. Try another question, click any object on the plan to inspect its memory entry, or replay this one.");
+      replayRow.classList.add("show");
+      askHook.classList.add("show");
+      playing = false;
+    }, 5900);
+  }
+
+  /* ---------- ask (stove): answered from a captured image, not the graph ---------- */
+  function askStove(){
+    var steps = renderSteps(traceBox, [
+      {k:"1 · Understand", main:"You\u2019re asking about the stove \u2014 and whether it was on.", detail:"A state question, not a where-is-it question."},
+      {k:"2 · Check the scene graph", main:"No stove node \u2014 the graph tracks movable objects; the stove is a fixture.", detail:"The graph lookup comes up empty. That isn\u2019t the end of the search."},
+      {k:"3 · Check captured images", main:"Pulling the kitchen frames captured during exploration, 9:05 AM — wide view and stove close-up.", detail:"Exploration stores RGB frames alongside the graph, indexed by room and time."},
+      {k:"4 · Answer from the image", main:"Reading the frame: all four burners off, knobs at rest.", detail:"Answered from an image \u2014 only as fresh as the last capture."}
+    ]);
+
+    /* Step 1 — understand */
+    setStep(steps, 0, "active");
+    setStage(0, 4, "Step 1 of 4 — Understand the question",
+      "First, the robot works out what you\u2019re asking: <strong>the stove, and whether it was on</strong>. That\u2019s a question about a state, not a location.");
+    robotDot.classList.add("robot-thinking");
+    pulse.classList.remove("go"); void pulse.getBBox(); pulse.classList.add("go");
+
+    /* Step 2 — the scene graph has no stove */
+    later(function(){
+      setStep(steps, 1, "active");
+      setStage(1, 4, "Step 2 of 4 — Check the scene graph",
+        "It searches the <strong>scene graph</strong> first — watch it check each tracked object — and finds <strong>no stove</strong>. The graph holds objects it tracks (mug, keys, novel\u2026); a built-in stove was never one of them. A graph-only system would have to stop here.");
+      ORDER.forEach(function(k2, i){
+        later(function(){
+          document.querySelectorAll(".obj").forEach(function(n){ n.classList.remove("scan"); });
+          var n2 = document.querySelector('.obj[data-obj="' + k2 + '"]');
+          if(n2) n2.classList.add("scan");
+        }, i * 220);
+      });
+    }, 1500);
+
+    /* Step 3 — fall back to the captured kitchen frame */
+    later(function(){
+      setStep(steps, 2, "active");
+      document.querySelectorAll(".obj").forEach(function(n){ n.classList.remove("scan"); });
+      var roomG = document.querySelector('.room[data-room="kitchen"]');
+      if(roomG) roomG.classList.add("lit");
+      placeFlash("kitchen");
+      flash.classList.add("show");
+      frameCard.classList.add("show");
+      setStage(2, 4, "Step 3 of 4 — Check captured images",
+        "Because exploration <strong>captures images</strong>, the robot has a second memory to check: the <strong>kitchen frames from 9:05 AM</strong> — a wide view and a stove close-up — shown in the card on the right. The amber outline on the plan is the room they were captured in.");
+    }, 3400);
+
+    /* Step 4 — answer from the frame */
+    later(function(){
+      setStep(steps, 3, "active");
+      robotDot.classList.remove("robot-thinking");
+      setStage(3, 4, "Step 4 of 4 — Answer from the image",
+        "The frame shows <strong>all four burners off</strong> — so the robot can answer, while being honest that the answer comes from a <strong>9:05 AM image</strong>, not a live look.");
+      answerBox.innerHTML = "<strong>Robot:</strong> The stove was <strong>off</strong> when I last captured the kitchen — <strong>9:05 AM</strong> during exploration: all four burners cold, knobs at rest. I don\u2019t track the stove as an object in my scene graph, so this answer comes from the stored camera frame — it\u2019s only as fresh as that capture.";
+      answerBox.classList.add("show");
+    }, 5100);
+
+    later(function(){
+      setStep(steps, 3, "done");
+      flash.classList.remove("show");
+      setStage(4, 4, "Done — answered from an image, not the graph",
+        "Two memories, one robot: the <strong>scene graph</strong> answers where tracked objects are; <strong>captured frames</strong> answer what the home looked like — including things that were never graph objects. Try another question, or replay this one.");
+      replayRow.classList.add("show");
+      askHook.classList.add("show");
+      playing = false;
+    }, 6300);
+  }
+
+  document.querySelectorAll(".q-chip").forEach(function(c){
+    c.addEventListener("click", function(){ ask(c.getAttribute("data-q")); });
+  });
+  document.getElementById("replay-btn").addEventListener("click", function(){ if(lastAsk) ask(lastAsk); });
+
+  /* Clicking an object inspects its memory entry instantly (no animation). */
+  document.querySelectorAll(".obj").forEach(function(n){
+    function inspect(){
+      var key = n.getAttribute("data-obj");
+      if(currentMode !== "ask"){ setMode("ask"); }
+      clearTimers(); resetScene(); playing = false;
+      answerBox.classList.remove("show");
+      frameCard.classList.remove("show");
+      replayRow.classList.remove("show");
+      document.querySelectorAll(".q-chip").forEach(function(c){ c.classList.remove("active"); });
+      renderSteps(traceBox, [
+        {k:"Memory entry", main:"This is what the robot remembers about the " + OBJECTS[key].name.toLowerCase() + ".", detail:"Full entry in the card below."}
+      ]).forEach(function(s){ s.classList.add("done"); });
+      var o = OBJECTS[key];
+      setStage(4, 4, "Inspecting memory",
+        "You clicked the <strong>" + o.name.toLowerCase() + "</strong>. The card on the right is its memory entry: the room it belongs to, when it was last seen, and how it got into memory. Ask a question above to watch a full lookup.");
+      document.querySelectorAll(".edge").forEach(function(e){ e.classList.add("hidden"); });
+      n.classList.add("hot");
+      document.querySelectorAll(".obj").forEach(function(m){ if(m!==n) m.classList.add("dim"); });
+      showObjCard(key);
+    }
+    n.addEventListener("click", inspect);
+    n.addEventListener("keydown", function(ev){ if(ev.key==="Enter"||ev.key===" "){ ev.preventDefault(); inspect(); } });
+  });
+
+  /* Play the exploration automatically, once, when the demo scrolls into view —
+     visitors see the memory being built before they are asked to query it. */
+  var demoShell = document.querySelector(".demo-shell");
+  if("IntersectionObserver" in window && demoShell){
+    var seen = false;
+    var io = new IntersectionObserver(function(entries){
+      if(!seen && entries[0].isIntersecting && !explorePlaying && !graphBuilt && currentMode === "explore"){
+        seen = true; io.disconnect();
+        setTimeout(function(){ if(!explorePlaying && !graphBuilt && currentMode === "explore") playExplore(); }, 500);
+      }
+    }, {threshold: 0.35});
+    io.observe(demoShell);
+  } else {
+    playExplore();
+  }
+
+  /* ---- modes ---- */
+  var askPane = document.getElementById("ask-pane");
+  var teachPane = document.getElementById("teach-pane");
+  var explorePane = document.getElementById("explore-pane");
+  var modeExplore = document.getElementById("mode-explore");
+  var modeAsk = document.getElementById("mode-ask");
+  var modeTeach = document.getElementById("mode-teach");
+  function setMode(mode){
+    currentMode = mode;
+    modeExplore.setAttribute("aria-pressed", String(mode === "explore"));
+    modeAsk.setAttribute("aria-pressed", String(mode === "ask"));
+    modeTeach.setAttribute("aria-pressed", String(mode === "teach"));
+    explorePane.style.display = mode === "explore" ? "block" : "none";
+    askPane.style.display = mode === "ask" ? "block" : "none";
+    teachPane.classList.toggle("show", mode === "teach");
+    clearTimers(); resetScene(); playing = false; explorePlaying = false;
+    if(mode === "explore"){
+      setupExploreStage();
+    } else if(mode === "teach"){
+      setDots(4);
+      document.querySelectorAll(".edge").forEach(function(e){ e.classList.add("hidden"); });
+      setStage(0, 4, "Teach mode",
+        "Here the direction flips: <strong>you give the robot a new memory</strong>. Press the Teach button and watch the <strong>favorite mug</strong> in the kitchen — a speech bubble shows what the person says while holding it.");
+    } else {
+      setDots(4);
+      document.querySelectorAll(".edge").forEach(function(e){ e.classList.add("hidden"); });
+      if(!lastAsk){
+        setStage(0, 4, "How to read this",
+          "Each dot on the plan is an object in the <strong>scene graph</strong> — the memory built by exploration. Pick a question and watch, step by step: the robot works out what you\u2019re asking for, <strong>searches the graph</strong>, then follows the path <strong>in memory</strong> to the object it finds \u2014 it stays where it is, no line drawn, no trip across the plan \u2014 and answers.");
+      }
+    }
+  }
+  modeExplore.addEventListener("click", function(){ setMode("explore"); });
+  modeAsk.addEventListener("click", function(){ setMode("ask"); });
+  modeTeach.addEventListener("click", function(){ setMode("teach"); });
+  exploreBtn.addEventListener("click", function(){ playExplore(); });
+  document.getElementById("hook-to-ask").addEventListener("click", function(ev){
+    ev.preventDefault();
+    setMode("ask");
+    later(function(){ ask("mug"); }, 450);
+  });
+  setupExploreStage();
+
+  /* ---- teach: a four-step narrated registration ---- */
+  var teachBtn = document.getElementById("teach-btn");
+  teachBtn.addEventListener("click", function(){
+    clearTimers(); resetScene();
+    /* No spoke lines behind the teach animation either — only the mug link
+       appears, at the end of step 3, once the memory is stored. */
+    document.querySelectorAll(".edge").forEach(function(e){ e.classList.add("hidden"); });
+    var node = document.querySelector('.obj[data-obj="mug"]');
+    var edge = document.querySelector('[data-edge="robot-mug"]');
+    var steps = renderSteps(teachTraceBox, [
+      {k:"1 · Hear", main:"\u201CThis is my favorite mug.\u201D", detail:"Speech gives the robot a name for what\u2019s being shown."},
+      {k:"2 · Work out which object", main:"Gesture + gaze point at the mug in the person\u2019s hand.", detail:"Speech alone is ambiguous \u2014 pointing settles it."},
+      {k:"3 · Save to memory", main:"A new entry is written into the scene graph.", detail:"Favorite mug \u00B7 Kitchen."},
+      {k:"4 · Keep it", main:"Stored persistently \u2014 remembered across sessions.", detail:"Now it can be found, and fetched, later."}
+    ]);
+    teachBtn.disabled = true; teachBtn.textContent = "Listening\u2026";
+
+    /* Step 1 — hear: the speech bubble appears over the kitchen */
+    setStep(steps, 0, "active");
+    speech.classList.add("show");
+    if(node) node.classList.add("scan");
+    setStage(0, 4, "Step 1 of 4 — Hear",
+      "A person holds up the mug and says <strong>\u201Cthis is my favorite mug.\u201D</strong> The speech bubble on the plan is what the robot hears.");
+
+    /* Step 2 — ground: pointing settles which object */
+    later(function(){
+      setStep(steps, 1, "active");
+      setStage(1, 4, "Step 2 of 4 — Work out which object",
+        "Words alone don\u2019t say <em>which</em> mug. The robot combines the speech with the person\u2019s <strong>gesture and gaze</strong> — the highlighted mug in the kitchen is the one being held up.");
+    }, 1700);
+
+    /* Step 3 — register: the dot travels with NO line behind it; only once it
+       arrives does the new graph link appear, showing the memory being stored. */
+    later(function(){
+      setStep(steps, 2, "active");
+      speech.classList.remove("show");
+      if(node) node.classList.remove("scan");
+      if(edge){ edge.classList.remove("hot","hidden"); edge.style.opacity = "0"; }
+      setStage(2, 4, "Step 3 of 4 — Save to memory",
+        "The robot now <strong>writes a new memory entry</strong>. Watch the dot travel from the robot to the mug — no line behind it; when it arrives, the new link appears on the plan, showing the memory being stored in the scene graph.");
+      travelTo("mug", 750, function(){
+        if(node){ node.classList.add("hot","found","taught"); }
+        if(edge){ edge.classList.add("hot"); edge.style.opacity = ""; }
+      });
+    }, 3400);
+
+    /* Step 4 — persist */
+    later(function(){
+      setStep(steps, 3, "active");
+      OBJECTS.mug.taught = true;
+      OBJECTS.mug.seen = "Just now (teach session)";
+      teachBtn.disabled = false;
+      teachBtn.textContent = "\u2713 Taught \u2014 mug is in memory. Switch to \u201CAsk a question\u201D and try it.";
+      setStage(3, 4, "Step 4 of 4 — Keep it",
+        "Done — and it <strong>stays</strong> in memory across sessions. Switch back to <strong>Ask a question</strong> and ask where the favorite mug is: the robot will find the entry you just created.");
+      showObjCard("mug");
+    }, 5100);
+
+    later(function(){
+      setStep(steps, 3, "done");
+      setStage(4, 4, "Done — a new memory, taught by a person",
+        "Four steps: <strong>hear \u2192 work out which object \u2192 save \u2192 keep</strong>. That loop \u2014 people teaching the robot their own objects \u2014 is the teach-the-robot pipeline described below.");
+    }, 6100);
+  });
+})();
+</script>
 </body>
 </html>
