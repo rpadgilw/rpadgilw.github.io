@@ -311,10 +311,12 @@
   .trail-dot{fill:var(--bg-raised);stroke:var(--accent);stroke-width:2.4}
   .fixture rect,.fixture circle{fill:none;stroke:var(--ink-3);stroke-width:1.4;opacity:.7}
   .fixture text{fill:var(--ink-3);font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.06em}
-  #flash{opacity:0;transition:opacity .3s;pointer-events:none}
+  #flash{opacity:0;transition:opacity .25s;pointer-events:none}
   #flash.show{opacity:1}
-  #flash rect{fill:color-mix(in srgb,var(--amber) 10%,transparent);stroke:var(--amber);stroke-width:2.5}
-  #flash text{fill:var(--amber);font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.06em}
+  #flash-brackets{fill:none;stroke:var(--amber);stroke-width:2.5;stroke-linecap:round}
+  #flash-pill-rect{fill:var(--amber)}
+  #flash-tag{fill:#fff;font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.05em}
+  @media (prefers-color-scheme: dark){ #flash-tag{fill:#1d1405} }
   .captures{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
   .cap{margin:0;width:104px}
   .cap svg{width:104px;height:70px;display:block;border:1px solid var(--line-strong);border-radius:8px;background:var(--bg-sink)}
@@ -540,8 +542,12 @@
             <!-- exploration trail: the dotted route the robot actually drives, drawn behind it -->
             <path id="trail" d=""/>
             <g id="trail-dots"></g>
-            <!-- capture flash: frames the room the robot is photographing -->
-            <g id="flash"><rect id="flash-rect" x="0" y="0" width="10" height="10" rx="6"/><text id="flash-tag" x="0" y="0">▣ FRAME CAPTURED</text></g>
+            <!-- capture flash: viewfinder corner brackets inside the room plus
+                 a small pill in its bottom-left corner — never a full-room
+                 overlay, so it cannot wash over objects, labels, or the robot -->
+            <g id="flash"><path id="flash-brackets" d=""/><g id="flash-pill"><rect id="flash-pill-rect" width="150" height="20" rx="10"/><text id="flash-tag" x="75" y="14" text-anchor="middle">▣ FRAME CAPTURED</text></g></g>
+            <!-- hidden geometry path the robot follows while it drives -->
+            <path id="routepath" fill="none" stroke="rgba(0,0,0,0)" style="pointer-events:none"/>
             <!-- camera view cone, shown while exploring -->
             <path id="cone" d=""/>
             <!-- robot -->
@@ -1009,8 +1015,10 @@
   var trail = document.getElementById("trail");
   var trailDotsG = document.getElementById("trail-dots");
   var flash = document.getElementById("flash");
-  var flashRect = document.getElementById("flash-rect");
-  var flashTag = document.getElementById("flash-tag");
+  var flashBrackets = document.getElementById("flash-brackets");
+  var flashPill = document.getElementById("flash-pill");
+  var routePath = document.getElementById("routepath");
+  var flashToken = 0;
   var capturesBox = document.getElementById("captures");
   var trailPts = [], trailActive = false;
   var ROOM_RECT = {living:[30,236,270,204], kitchen:[30,30,270,190], entryway:[316,30,294,190], bedroom:[316,236,294,204]};
@@ -1064,11 +1072,8 @@
     pathChain.classList.remove("show");
     askHook.classList.remove("show");
   }
-  function travelTo(key, dur, done){
-    var edge = document.querySelector('[data-edge="robot-'+key+'"]');
-    if(!edge || REDUCED){ if(done) done(); return; }
-    var x1 = +edge.getAttribute("x1"), y1 = +edge.getAttribute("y1");
-    var x2 = +edge.getAttribute("x2"), y2 = +edge.getAttribute("y2");
+  function travelFromTo(x1, y1, x2, y2, dur, done){
+    if(REDUCED){ if(done) done(); return; }
     var t0 = null;
     traveler.setAttribute("cx", x1); traveler.setAttribute("cy", y1);
     traveler.style.opacity = "1";
@@ -1082,6 +1087,11 @@
       else { rafId = null; traveler.style.opacity = "0"; if(done) done(); }
     }
     rafId = requestAnimationFrame(frame);
+  }
+  function travelTo(key, dur, done){
+    var edge = document.querySelector('[data-edge="robot-'+key+'"]');
+    if(!edge){ if(done) done(); return; }
+    travelFromTo(+edge.getAttribute("x1"), +edge.getAttribute("y1"), +edge.getAttribute("x2"), +edge.getAttribute("y2"), dur, done);
   }
   function showObjCard(key){
     var o = OBJECTS[key]; if(!o) return;
@@ -1124,6 +1134,51 @@
     }
     moveRaf = requestAnimationFrame(frame);
   }
+  /* Build a rounded version of a polyline: straight runs joined by quadratic
+     corners, so the robot glides through waypoints instead of stopping and
+     turning sharply at each one. A quadratic corner never leaves the triangle
+     formed by the corner point and its two cut points, so the obstacle
+     clearances verified for the straight segments hold for the smoothed
+     path too. */
+  function roundedPathD(pts, r){
+    var d = "M" + pts[0][0] + " " + pts[0][1];
+    for(var i = 1; i < pts.length - 1; i++){
+      var p = pts[i], prev = pts[i-1], next = pts[i+1];
+      var d1 = Math.sqrt((p[0]-prev[0])*(p[0]-prev[0]) + (p[1]-prev[1])*(p[1]-prev[1]));
+      var d2 = Math.sqrt((next[0]-p[0])*(next[0]-p[0]) + (next[1]-p[1])*(next[1]-p[1]));
+      var rr = Math.min(r, d1 / 2, d2 / 2);
+      var ax = p[0] + (prev[0]-p[0]) / d1 * rr, ay = p[1] + (prev[1]-p[1]) / d1 * rr;
+      var bx = p[0] + (next[0]-p[0]) / d2 * rr, by = p[1] + (next[1]-p[1]) / d2 * rr;
+      d += " L" + ax.toFixed(1) + " " + ay.toFixed(1) + " Q" + p[0] + " " + p[1] + " " + bx.toFixed(1) + " " + by.toFixed(1);
+    }
+    d += " L" + pts[pts.length-1][0] + " " + pts[pts.length-1][1];
+    return d;
+  }
+  /* Drive through a list of waypoints as ONE smooth path (see roundedPathD),
+     easing only at the very start and end of the whole leg — the exploration
+     route and the teach approach both use this to steer around obstacles. */
+  function moveAlong(points, done, speed){
+    if(!points.length){ if(done) done(); return; }
+    var last = points[points.length - 1];
+    if(REDUCED){ setRobot(last[0], last[1]); trailPush(last[0], last[1]); if(done) done(); return; }
+    var fx = +robotDot.getAttribute("cx"), fy = +robotDot.getAttribute("cy");
+    var pts = [[fx, fy]].concat(points);
+    routePath.setAttribute("d", roundedPathD(pts, 22));
+    var len = routePath.getTotalLength();
+    var dur = Math.max(400, len / (speed || 0.16)), t0 = null;
+    function frame(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      var e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+      var pt = routePath.getPointAtLength(len * e);
+      var pt2 = routePath.getPointAtLength(Math.min(len * e + 2, len));
+      setRobot(pt.x, pt.y, Math.atan2(pt2.y - pt.y, pt2.x - pt.x));
+      trailPush(pt.x, pt.y);
+      if(p < 1){ moveRaf = requestAnimationFrame(frame); }
+      else { moveRaf = null; if(done) done(); }
+    }
+    moveRaf = requestAnimationFrame(frame);
+  }
   /* ---------- exploration trail & captured frames ---------- */
   function trailPush(x, y){
     if(!trailActive) return;
@@ -1149,14 +1204,30 @@
   }
   function placeFlash(key){
     var r = ROOM_RECT[key]; if(!r) return;
-    flashRect.setAttribute("x", r[0]); flashRect.setAttribute("y", r[1]);
-    flashRect.setAttribute("width", r[2]); flashRect.setAttribute("height", r[3]);
-    flashTag.setAttribute("x", r[0] + 12); flashTag.setAttribute("y", r[1] + 24);
+    var x = r[0], y = r[1], w = r[2], h = r[3], i = 8, a = 18;
+    /* Four viewfinder corner brackets, inset 8px inside the room — they mark
+       the room that was photographed without covering anything in it: no
+       full-room fill, no overlay on objects, the robot, or the cone. */
+    flashBrackets.setAttribute("d",
+      "M" + (x+i) + " " + (y+i+a) + " V" + (y+i) + " H" + (x+i+a) +
+      " M" + (x+w-i-a) + " " + (y+i) + " H" + (x+w-i) + " V" + (y+i+a) +
+      " M" + (x+w-i) + " " + (y+h-i-a) + " V" + (y+h-i) + " H" + (x+w-i-a) +
+      " M" + (x+i+a) + " " + (y+h-i) + " H" + (x+i) + " V" + (y+h-i-a));
+    /* The label pill sits in the room's bottom-left corner — checked against
+       all four rooms: clear of the room name (top-left), the STOVE text
+       (kitchen, bottom-right), and every object's detection box and label.
+       (The old design put the label at the top-left, directly on top of the
+       room name, and washed the whole room in amber.) */
+    flashPill.setAttribute("transform", "translate(" + (x + 12) + " " + (y + h - 34) + ")");
   }
   function flashRoom(key){
     placeFlash(key);
+    var tok = ++flashToken;
     flash.classList.add("show");
-    later(function(){ flash.classList.remove("show"); }, 750);
+    /* One flash element, one owner: only the most recent capture's timer may
+       hide it, so a stale timer from an earlier capture can never cut a newer
+       flash short, leave one stuck on, or stack flashes on top of each other. */
+    later(function(){ if(tok === flashToken) flash.classList.remove("show"); }, 800);
   }
   var CAPTURE_ART = {
     living:'<svg viewBox="0 0 84 56" aria-hidden="true"><rect width="84" height="56" fill="var(--bg-sink)"/><rect x="8" y="32" width="46" height="11" rx="3" fill="var(--line-strong)"/><rect x="8" y="24" width="46" height="10" rx="3" fill="var(--ink-3)" opacity=".5"/><rect x="66" y="34" width="10" height="9" fill="var(--amber)"/><circle cx="71" cy="24" r="7" fill="var(--accent)"/><circle cx="64" cy="28" r="5" fill="var(--accent)"/></svg>',
@@ -1256,11 +1327,29 @@
       addTag(key, n);
     }, 950);
   }
+  /* Each stop carries a `via` route: waypoints the robot drives through on
+     the way there, and moveAlong smooths each whole leg into one gliding
+     path (roundedPathD), so the robot steers around the home instead of
+     passing through it. Clearances below are robot-centre distances,
+     re-measured leg by leg against every object (core r 13, robot r 9 —
+     anything over ~25px cannot touch) and against the stove fixture rect
+     (x 252–294, y 146–186, a fixture the robot must never cross):
+       · dock → living room runs straight west: 79px from the plant at its
+         closest, nowhere near the remote.
+       · living room → kitchen climbs at x≈148 — 66px west of the TV remote
+         (215,215), which sits right in the doorway band — then approaches
+         the mug from the south-west, never closer than ~52px to it. The old
+         kitchen stop (232,168) parked only 20px from the stove; the new
+         stop (218,172) keeps 34px from the stove's west face.
+       · kitchen → entryway first backs north-west to (232,110), passing
+         ~27px clear of the stove's top-left corner, then crosses at y≈105.
+       · entryway → bedroom keeps ~70px from the shoes and ends 58px from
+         the novel; the run back to the dock is unobstructed. */
   var STOPS = [
-    {x:175, y:315, room:"living", finds:["plant","remote"]},
-    {x:240, y:170, room:"kitchen", finds:["mug"]},
-    {x:465, y:130, room:"entryway", finds:["keys","shoes"]},
-    {x:440, y:320, room:"bedroom", finds:["book"]}
+    {x:168, y:296, room:"living", finds:["plant","remote"], via:[]},
+    {x:218, y:172, room:"kitchen", finds:["mug"], via:[[150,262],[148,196]]},
+    {x:448, y:138, room:"entryway", finds:["keys","shoes"], via:[[232,110],[425,104]]},
+    {x:442, y:322, room:"bedroom", finds:["book"], via:[[452,224]]}
   ];
   var STOP_CAPTIONS = [
     {count:"Step 2 of 3 — Detect & track", html:"In the <strong>living room</strong>, object detection boxes what the cameras see — the monstera, the TV remote — and <strong>2D/3D tracking</strong> takes over: each object gets a <strong>persistent track ID</strong> (the # tags) and a <strong>3D position</strong>. Their nodes appear in the graph panel as they are found."},
@@ -1302,7 +1391,10 @@
     stageCaption.innerHTML = "The robot leaves its dock and drives through the home, <strong>RGB+depth cameras on</strong> — the shaded wedge is what its cameras see. Everything it will ever answer starts as pixels and depth.";
     var actions = [];
     STOPS.forEach(function(stop, si){
-      actions.push(function(next){ moveRobot(stop.x, stop.y, next); });
+      actions.push(function(next){
+        var pts = (stop.via || []).concat([[stop.x, stop.y]]);
+        moveAlong(pts, next);
+      });
       actions.push(function(next){
         var cap = STOP_CAPTIONS[si];
         stageCount.textContent = cap.count;
@@ -1315,7 +1407,7 @@
         sweepCone(stop.x, stop.y, baseAng, 1550, next);
       });
     });
-    actions.push(function(next){ moveRobot(HOME.x, HOME.y, next); });
+    actions.push(function(next){ moveAlong([[HOME.x, HOME.y]], next); });
     actions.push(function(next){ finishExplore(); next(); });
     runSeq(actions, 0);
   }
@@ -1492,8 +1584,10 @@
       document.querySelectorAll(".obj").forEach(function(n){ n.classList.remove("scan"); });
       var roomG = document.querySelector('.room[data-room="kitchen"]');
       if(roomG) roomG.classList.add("lit");
-      placeFlash("kitchen");
-      flash.classList.add("show");
+      /* A brief, small capture flash only — the room then stays merely "lit"
+         for the rest of the answer, so no flash element sits on top of the
+         plan while the visitor reads the frames. */
+      flashRoom("kitchen");
       frameCard.classList.add("show");
       setStage(2, 4, "Step 3 of 4 — Check captured images",
         "Because exploration <strong>captures images</strong>, the robot has a second memory to check: the <strong>kitchen frames from 9:05 AM</strong> — a wide view and a stove close-up — shown in the card on the right. The amber outline on the plan is the room they were captured in.");
@@ -1620,7 +1714,7 @@
     var edge = document.querySelector('[data-edge="robot-mug"]');
     var steps = renderSteps(teachTraceBox, [
       {k:"1 · Hear", main:"\u201CThis is my favorite mug.\u201D", detail:"Speech gives the robot a name for what\u2019s being shown."},
-      {k:"2 · Work out which object", main:"Gesture + gaze point at the mug in the person\u2019s hand.", detail:"Speech alone is ambiguous \u2014 pointing settles it."},
+      {k:"2 · Work out which object", main:"Gesture + gaze point at the mug in the person\u2019s hand.", detail:"Speech alone is ambiguous \u2014 pointing settles it. The robot rolls up beside the mug for a clear view."},
       {k:"3 · Save to memory", main:"A new entry is written into the scene graph.", detail:"Favorite mug \u00B7 Kitchen."},
       {k:"4 · Keep it", main:"Stored persistently \u2014 remembered across sessions.", detail:"Now it can be found, and fetched, later."}
     ]);
@@ -1633,23 +1727,33 @@
     setStage(0, 4, "Step 1 of 4 — Hear",
       "A person holds up the mug and says <strong>\u201Cthis is my favorite mug.\u201D</strong> The speech bubble on the plan is what the robot hears.");
 
-    /* Step 2 — ground: pointing settles which object */
+    /* Step 2 — ground: pointing settles which object, and the robot rolls up
+       close to the mug so its cameras get a clear view of the exact object
+       being taught. The drive reuses the exploration route west around the
+       TV remote and approaches the mug from the south-west, parking at
+       (212,156) — about 41px from the mug's centre: right beside it, never
+       touching (robot r 9 + mug core r 13 = 22px), and 40px clear of the
+       stove's west face. */
     later(function(){
       setStep(steps, 1, "active");
       setStage(1, 4, "Step 2 of 4 — Work out which object",
-        "Words alone don\u2019t say <em>which</em> mug. The robot combines the speech with the person\u2019s <strong>gesture and gaze</strong> — the highlighted mug in the kitchen is the one being held up.");
+        "Words alone don\u2019t say <em>which</em> mug. The robot combines the speech with the person\u2019s <strong>gesture and gaze</strong> — and <strong>rolls up close to the mug</strong>, parking right beside it in the kitchen so its cameras get a clear view of the object being held up.");
+      moveAlong([[150,262],[148,196],[212,156]], null, 0.21);
     }, 1700);
 
-    /* Step 3 — register: the dot travels with NO line behind it; only once it
-       arrives does the new graph link appear, showing the memory being stored. */
+    /* Step 3 — register: with the robot parked beside the mug, a dot hops the
+       last few centimetres from the robot to the mug (no line behind it);
+       only once it arrives does the new graph link appear, showing the
+       memory being stored. */
     later(function(){
       setStep(steps, 2, "active");
       speech.classList.remove("show");
       if(node) node.classList.remove("scan");
       if(edge){ edge.classList.remove("hot","hidden"); edge.style.opacity = "0"; }
       setStage(2, 4, "Step 3 of 4 — Save to memory",
-        "The robot now <strong>writes a new memory entry</strong>. Watch the dot travel from the robot to the mug — no line behind it; when it arrives, the new link appears on the plan, showing the memory being stored in the scene graph.");
-      travelTo("mug", 750, function(){
+        "Parked beside the mug, the robot now <strong>writes a new memory entry</strong>. Watch the dot hop from the robot to the mug — no line behind it; when it arrives, the new link appears on the plan, showing the memory being stored in the scene graph.");
+      var rx = +robotDot.getAttribute("cx"), ry = +robotDot.getAttribute("cy");
+      travelFromTo(rx, ry, OBJ_POS.mug[0], OBJ_POS.mug[1], 600, function(){
         if(node){ node.classList.add("hot","found","taught"); }
         if(edge){ edge.classList.add("hot"); edge.style.opacity = ""; }
       });
